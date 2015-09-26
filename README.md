@@ -1,6 +1,8 @@
 
 #Flask-Project-Creator
-Creates a scalable folder structure for your Flask app in seconds 
+Creates a scalable folder structure for your Flask project in seconds 
+
+just run the flask_project_creator.py inside it's folder after you've downloaded or cloned this project
 
 example usage:
 
@@ -56,15 +58,15 @@ the pages have to be inclosed in a brace **[]** like below:
 
     project.add_app(New_App = ["new_page","new_page2"])
 
-**delete_app** is the opposite of add_app it takes any number of apps you have in your project as it's arguments
+**delete_app** is the opposite of **add_app** it takes any number of apps you have in your project as it's arguments and deletes it
 
 
 
     project.delete_app("App_to_be_deleted","App_to_be_deleted2")
 
-**add_page** adds a new page to the app you specifiy it takes a key-value pair of an app and the pages you want to add inside a brace
+**add_page** adds a new page to the app you specifiy it takes a key-value pair of an app and the pages you want to add inside a brace **[]**
 
-    project.add_page(Music = ["new_added_page",new_added_page2"]
+    project.add_page(App = ["new_added_page",new_added_page2"]
 
 **delete_page** does the opposite of **add_page** but still takes a  key-value pair of an app name and the pages to be deleted enclosed in a brace
 
