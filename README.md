@@ -2,11 +2,7 @@
 #Flask-Project-Creator
 Creates a scalable folder structure for your Flask project in seconds 
 
-<<<<<<< HEAD
 just run the **flask_project_creator.py** inside it's folder after you've downloaded or cloned this project
-=======
-just run the flask_project_creator.py inside it's folder after you've downloaded or cloned this project
->>>>>>> ab0513c7de6bc114b7d38a1b53ca059ee1851936
 
 example usage:
 
