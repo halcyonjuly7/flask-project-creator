@@ -4,22 +4,37 @@ from project_creator import *
 
 clear = lambda: os.system("cls")
 
-print("""
-Welcome to the flask project creator. When asked about the pages to be created please 
-use this format: home_page, profile_page, index_page, that is name whatever you want the page
-to be followed by an underscore then page i.e. '_page'\n\n """)
+print("""                                                                                                                                  
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+ _______  __           ___           _______. __  ___    .______   .______        ______          __   _______   ______ .___________.
+|   ____||  |         /   \         /       ||  |/  /    |   _  \  |   _  \      /  __  \        |  | |   ____| /      ||           |
+|  |__   |  |        /  ^  \       |   (----`|  '  /     |  |_)  | |  |_)  |    |  |  |  |       |  | |  |__   |  ,----'`---|  |----`
+|   __|  |  |       /  /_\  \       \   \    |    <      |   ___/  |      /     |  |  |  | .--.  |  | |   __|  |  |         |  |     
+|  |     |  `----. /  _____  \  .----)   |   |  .  \     |  |      |  |\  \----.|  `--'  | |  `--'  | |  |____ |  `----.    |  |     
+|__|     |_______|/__/     \__\ |_______/    |__|\__\    | _|      | _| `._____| \______/   \______/  |_______| \______|    |__|     
+                                                                                                                                     
+                       ______ .______       _______      ___   .___________.  ______   .______                                       
+                      /      ||   _  \     |   ____|    /   \  |           | /  __  \  |   _  \                                      
+                     |  ,----'|  |_)  |    |  |__      /  ^  \ `---|  |----`|  |  |  | |  |_)  |                                     
+                     |  |     |      /     |   __|    /  /_\  \    |  |     |  |  |  | |      /                                      
+                     |  `----.|  |\  \----.|  |____  /  _____  \   |  |     |  `--'  | |  |\  \----.                                 
+                      \______|| _| `._____||_______|/__/     \__\  |__|      \______/  | _| `._____|                                 
 
 
-
+""")                                                                                                          
 print("""
 What would you like to do today?
 choose a number:
 
 1.create a project?
-2.add an app to an existing project?
-3.delete an app of an existing project?
-4.add a page or pages to an existing app?
-5 delete a page or pages of an existing app?
+2.add an app/apps?
+3.delete an app/apps?
+4.add a page/pages?
+5 delete a page/pages?
 """)
 
 choice = int(input("choice: "))
@@ -32,17 +47,17 @@ It seems you did not choose a number within th choices.
 choose a number:
 
 1.create a project?
-2.add an app to an existing project?
-3.delete an app of an existing project?
-4.add a page or pages to an existing app?
-5 delete a page or pages of an existing app?
+2.add an app/apps?
+3.delete an app/apps?
+4.add a page/pages?
+5 delete a page/pages?
 """))
 
 
 
 clear()
 choice_action(choice)
-
+clear()
 
 
 
