@@ -15,11 +15,16 @@ class CssHelper(HelperFunctions):
         self._create_new_css_files(css_path = css_path,apps_and_pages = app_and_pages,css_app_pages = css_app_pages)
     
 
-    def _remove_extra_css_folders(self,deleted_app):
-        """deletes app_folder in static/css if an app is deleted"""
 
-        css_path = lambda app : os.path.join(self.folder_location,"static","css",app)
-        shutil.rmtree(css_path(deleted_app))
+    def _remove_extra_css_apps(self):
+        """removes extra_css folders if there are any"""
+
+        css_path = os.path.join(self.folder_location,"static","css")
+        apps = self._get_apps(self._main)
+        css_apps = self._get_apps(css_path)
+        extra_css = css_apps.difference(apps)
+        for extra_app in extra_css:
+            shutil.rmtree(os.path.join(css_path,extra_app))
 
 
     def _create_new_css_folders(self,css_path = None,apps_and_pages = None,css_app_pages = None):
@@ -39,6 +44,7 @@ class CssHelper(HelperFunctions):
 
         apps_and_pages = self._get_apps_and_pages(self._main)
         css_app_pages = self._get_apps_and_pages(css_path)
+
         
         for app,pages in apps_and_pages.items():
             for page in pages:
@@ -53,11 +59,11 @@ class CssHelper(HelperFunctions):
         css_path = os.path.join(self.folder_location,"static","css")
         apps_and_pages2 = self._get_apps_and_pages(self._main)
         css_app_pages2 = self._get_apps_and_pages(css_path)
-        
-
 
         for app,pages in css_app_pages2.items():
             for page in pages:
                 page = page.replace(".css","")
+                
                 if page not in apps_and_pages2[app]:
                     os.remove(os.path.join(css_path,app,page + ".css"))
+

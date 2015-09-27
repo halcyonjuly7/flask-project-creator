@@ -36,9 +36,16 @@ class TemplatesHelper(HelperFunctions):
 		self._create_new_templates()
 		
 
-	def _remove_extra_templates_folder(self,deleted_app):
-		templates_path = lambda app : os.path.join(self.folder_location,"templates",app)
-		shutil.rmtree(templates_path(deleted_app))
+	def _remove_extra_templates_apps(self):
+		"""removes extra templates folders if there are any"""
+
+		templates_path = os.path.join(self.folder_location,"templates")
+		apps = self._get_apps(self._main)
+		templates_apps = self._get_apps(templates_path)
+		extra_templates = templates_apps.difference(apps)
+
+		for extra_app in extra_templates:
+			shutil.rmtree(os.path.join(templates_path,extra_app))
 	    
 	
 	def _remove_extra_templates(self):
@@ -46,8 +53,7 @@ class TemplatesHelper(HelperFunctions):
 
 		apps_location = os.path.join(self.folder_location,"apps")
 		templates_location = os.path.join(self.folder_location,"templates")
-		extra_template = lambda app,template: os.path.join(self.folder_location,"templates",app,template )
-
+		extra_template = lambda app,template: os.path.join(self.folder_location,"templates",app,template)
 		apps_pages = self._get_apps_and_pages(apps_location)
 		template_apps = self._get_apps_and_pages(templates_location)
 
@@ -56,6 +62,7 @@ class TemplatesHelper(HelperFunctions):
 				page = page.replace(".html","")
 				if page not in apps_pages[app]:
 					os.remove(extra_template(app,page + ".html"))
+				
 
 
 	    

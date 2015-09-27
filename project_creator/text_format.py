@@ -35,10 +35,10 @@ def create_app(config_name):
     lm.init_app(app)""".format(config_folder)
 
 app_init_page_imports = lambda app,page_name:"""
-  from .apps.{0}.{1} import {1}""".format(app,page_name)
+    from .apps.{0}.{1} import {1}""".format(app,page_name)
 
 app_init_blueprint_register = lambda page_name: """
-  app.register_blueprint({0})""".format(page_name)
+    app.register_blueprint({0})""".format(page_name)
 
 
 html_template = lambda app_name,folder:"""
@@ -85,6 +85,13 @@ class {1}(View):
 {0}.add_url_rule('/',view_func = {1}.as_view('{1}'),methods =['GET','POST'])""".format(folder,"".join(item.capitalize() for item in folder.partition("page")) ,folder.split("_")[0])
 
 
+configuration_file = """
+import os
+DEBUG = True
+UPLOAD_FOLDER =  ""
+SQALCHEMY_DATABASE_URI = "sqlite:/// + os.path.join(os.path.dirname(__file__), ../data-dev.sqlite3 "
+SECRET_KEY = "" 
 
+"""
 
 #"".join([i.capitalize() for first,middle,rest in folder.partition("page")

@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 from project_creator.text_format import *
 from project_creator.helpers_css import CssHelper
@@ -12,36 +13,11 @@ class ClassBasedProject(CssHelper,TemplatesHelper):
         self.folder_name = folder_name
         self._main = os.path.join(self.folder_location,"apps")
 
-    def create_project(self,*pages,config_folder = "config7",FunctionBased = False):
+    def create_project(self,*pages,config_folder = "config",FunctionBased = False):
         """creates a skeleton for a flask project and an initial app called main """
 
-        os.makedirs(self.folder_location)
-        os.makedirs(self._main)
-        os.makedirs(os.path.join(self._main,self.folder_name))
-        with open(os.path.join(self.folder_location,"run.py"),"w") as run_file:
-            run_file.write(run(self.folder_name))
-        self._create_static_template_folder(self.folder_name)
-        
-        with open(os.path.join(self._main,self.folder_name,"__init__.py"),"w") as main_init:
-            main_init.write(app_init())
-            
-        with open(os.path.join(self._main,"__init__.py"),"w") as apps_init_file:
-            apps_init_file.write(apps_init())
-
-
-        with open(os.path.join(self.folder_location,"__init__.py"),"w") as location_init_file:
-            location_init_file.write(main_init_file(config_folder))
-            for folder in pages:
-                os.makedirs(os.path.join(self._main,self.folder_name,folder))
-                location_init_file.write(app_init_page_imports(self.folder_name,folder))
-            for folder in pages:
-                location_init_file.write(app_init_blueprint_register(folder))
-                self._create_static_template_files(self.folder_name,folder)
-                self._create_init_routes(self._main,self.folder_name,folder,FunctionBased)
-            location_init_file.write("""
-return app""")
-
-
+        self._make_initial_directories()
+        self._make_initial_files(*pages,FunctionBased = FunctionBased)
 
     def add_app(self,**app_names_and_pages):
         """adds additional apps and pages inside apps to existing project"""
@@ -65,9 +41,12 @@ return app""")
         """adds a page to specified app/apps and updates templates & static folder as well ass the __init__ to reflect changes"""
         
         for app,pages in app_names_and_pages.items():
-            for page in pages:
-                os.makedirs(os.path.join(self._main,app,page))
-                self._create_init_routes(self._main,app,page)
+            if os.path.exists(os.path.join(self._main,app)):
+                for page in pages:
+                    os.makedirs(os.path.join(self._main,app,page))
+                    self._create_init_routes(self._main,app,page)
+            else:
+                print("that app does not exist")
 
         self._update_add_app_or_page()
 
@@ -76,13 +55,11 @@ return app""")
 
         for app in app_names:
             shutil.rmtree(os.path.join(self._main,app))
-            self._remove_extra_css_folder(app)
-            self._remove_extra_templates_folder(app)
         
+        self._remove_extra_css_apps()
+        self._remove_extra_templates_apps()
         self._update_delete_app_or_page()
        
-        
-
     
     def delete_page(self,**app_names_and_pages):
         """deletes a page to specified app and updates templates & static folder as well ass the __init__ to reflect changes"""
@@ -94,3 +71,9 @@ return app""")
                 shutil.rmtree(page_location(app,page))
 
         self._update_delete_app_or_page()
+
+
+
+
+
+
