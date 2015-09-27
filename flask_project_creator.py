@@ -42,7 +42,7 @@ choose a number:
 
 clear()
 choice_action(choice)
-clear()
+
 
 
 
