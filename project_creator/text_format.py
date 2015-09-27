@@ -93,5 +93,3 @@ SQALCHEMY_DATABASE_URI = "sqlite:/// + os.path.join(os.path.dirname(__file__), .
 SECRET_KEY = "secret123456" 
 
 """
-
-#"".join([i.capitalize() for first,middle,rest in folder.partition("page")
