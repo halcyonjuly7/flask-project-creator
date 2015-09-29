@@ -47,7 +47,7 @@ html_template = lambda app_name,folder:"""
   <head>
     <title></title>
     <meta charset='utf-8'>
-    <link href="{{url_for('static',filename='/{0}/{1}')}}">
+    <link href="{{url_for('static',filename='css/{0}/{1}')}}">
   </head>
   <body>
   </body>
@@ -60,19 +60,19 @@ from . import routes""".format(blueprint_name)
 
 
 
-nonindex_templates = lambda folder:"""
+nonindex_templates = lambda app,folder:"""
 from flask import render_template,redirect,url_for
 from flask.views import View
 from . import {0}
 
 class {1}(View):
   def dispatch_request(self):
-    return render_template('{0}.html')
+    return render_template('/{3}/{0}.html')
 
-{0}.add_url_rule('/{2}',view_func = {1}.as_view('{1}'),methods =['GET','POST'])""".format(folder,"".join(item.capitalize() for item in folder.partition("page")),folder.split("_")[0])
+{0}.add_url_rule('/{2}',view_func = {1}.as_view('{1}'),methods =['GET','POST'])""".format(folder,"".join(item.capitalize() for item in folder.partition("page")),folder.split("_")[0],app)
 
 
-index_route_template  = lambda folder:"""
+index_route_template  = lambda app,folder:"""
 
 from flask import render_template,redirect,url_for
 from flask.views import View
@@ -80,9 +80,9 @@ from . import {0}
 
 class {1}(View):
   def dispatch_request(self):
-    return render_template('{0}.html')
+    return render_template('/{3}/{0}.html')
 
-{0}.add_url_rule('/',view_func = {1}.as_view('{1}'),methods =['GET','POST'])""".format(folder,"".join(item.capitalize() for item in folder.partition("page")) ,folder.split("_")[0])
+{0}.add_url_rule('/',view_func = {1}.as_view('{1}'),methods =['GET','POST'])""".format(folder,"".join(item.capitalize() for item in folder.partition("page")) ,folder.split("_")[0],app)
 
 
 configuration_file = """

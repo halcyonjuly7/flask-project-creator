@@ -1,4 +1,5 @@
 from project_creator.creator_experiment import ClassBasedProject
+import re
 
 
 
@@ -6,7 +7,7 @@ def choice_action(choice):
     if choice == 1:
         folder_location = input(r"where would this folder be created?: ")
         project_name = input("what would you like to name this project? ")
-        pages = input("what pages would you like to create? separate the pages by a comma: ").split(",")
+        pages = input("what pages would you like to create? separate the pages by a comma: ").replace(" ","").split(",")
         project = ClassBasedProject(folder_location = folder_location,folder_name = project_name)
         project.create_project(*pages)
     

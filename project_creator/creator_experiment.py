@@ -33,7 +33,7 @@ class ClassBasedProject(CssHelper,TemplatesHelper):
                             if py_file == "__init__.py":
                                 file.write(app_init())
                             else:
-                                file.write(nonindex_templates(page))
+                                file.write(nonindex_templates(app,page))
 
         self._update_add_app_or_page()
       

@@ -46,9 +46,9 @@ class HelperFunctions(object):
                         current_file.write(page_blueprint(folder))
                     else:
                         if "index" in folder:
-                            current_file.write(index_route_template(folder))
+                            current_file.write(index_route_template(app_name,folder))
                         else:
-                            current_file.write(nonindex_templates(folder))
+                            current_file.write(nonindex_templates(app_name,folder))
         else:
             pass
 
