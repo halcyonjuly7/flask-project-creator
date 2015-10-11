@@ -1,6 +1,6 @@
 import re
 import os
-from project_creator import *
+from project_creator.choice_helpers import *
 
 clear = lambda: os.system("cls")
 
@@ -39,7 +39,7 @@ choose a number:
 
 choice = int(input("choice: "))
 
-while choice not in (1,2,3,4,5):
+while choice not in (1, 2, 3, 4, 5):
 	choice = int(input("""
 
 It seems you did not choose a number within th choices.
@@ -52,7 +52,6 @@ choose a number:
 4.add a page/pages?
 5 delete a page/pages?
 """))
-
 
 
 clear()

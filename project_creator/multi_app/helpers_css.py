@@ -1,6 +1,6 @@
 import os
 import shutil
-from project_creator.helpers import HelperFunctions
+from .helpers import HelperFunctions
 
 
 class CssHelper(HelperFunctions):
