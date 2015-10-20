@@ -25,17 +25,24 @@ class HelperFunctions(object):
     def _update_init_file(self):
         """removes original init and creates a new one for updated apps and pages"""
 
-        os.remove(os.path.join(self.folder_location, "__init__.py"))
-        with open(os.path.join(self.folder_location, "__init__.py"), "w") as file:
-            file.write(main_init_file("config_folder"))
-            for app, pages in self._get_apps_and_pages(self._main).items():
-                for page in pages:
-                    file.write(app_init_page_imports(app, page))
-            for app, pages in self._get_apps_and_pages(self._main).items():
-                for page in pages:  #loop repeated twice to achieve an certain format in __init__.py file
-                    file.write(app_init_blueprint_register(page))
-            file.write("""
-    return app""")
+        old_py_file = os.path.join(self.folder_location, "__init__.py")
+        new_py_file = os.path.join(self.folder_location, "__init__new.py")
+        with open(old_py_file, "r") as old_file:
+            with open(new_py_file, "w") as new_file:
+                for line in old_file:
+                    if "from .apps." not in line:
+                        new_file.write(line)
+                    else:
+                        break
+                for app, pages in self._get_apps_and_pages(self._main).items():
+                    for page in pages:
+                        new_file.write(app_init_page_imports(app, page))
+                for app, pages in self._get_apps_and_pages(self._main).items():
+                    for page in pages:  #loop repeated twice to achieve an certain format in __init__.py file
+                        new_file.write(app_init_blueprint_register(page))
+                new_file.write("""    return app""")
+        os.remove(old_py_file)
+        os.rename(new_py_file, old_py_file)
 
     def _create_init_routes(self, main, app_name, folder, FunctionBased=False):
         """creates the __init__ and routes file inside each page"""
@@ -78,13 +85,21 @@ class HelperFunctions(object):
     def _create_static_template_folder(self, app_name):
         """creates the static and templates folder including all it's sub folder"""
         for misc_folder in ("static", "templates"):
+            os.makedirs(os.path.join(self.folder_location, misc_folder, "common"))
             if misc_folder == "static":
-                os.makedirs(os.path.join(self.folder_location, misc_folder))
-                for static_folder in ("css", "img", "font"):
-                    os.makedirs(os.path.join(self.folder_location, misc_folder, static_folder))
-                os.makedirs(os.path.join(self.folder_location, misc_folder, "css", app_name))
+                self._create_contents_of_static_folder(app_name)
+                #os.makedirs(os.path.join(self.folder_location, misc_folder))
+                # for static_folder in ("css", "img", "font", "scripts"):
+                #     os.makedirs(os.path.join(self.folder_location, misc_folder, static_folder, app_name))
             else:
                 os.makedirs(os.path.join(self.folder_location, misc_folder, app_name))
+
+    def _create_contents_of_static_folder(self, app_name):
+        """ creates the sub folders of the static folder"""
+
+        for static_folder in ("css", "img", "font", "scripts"):
+                    os.makedirs(os.path.join(self.folder_location, "static", static_folder, app_name))
+
 
     def _create_static_template_files(self, app_name, folder):
         """creates the files inside the static and templates folder"""
@@ -98,18 +113,22 @@ class HelperFunctions(object):
                     html.write(html_template(app_name, folder))
 
     def _make_initial_directories(self):
+        """creates the initial directories"""
+
         os.makedirs(self.folder_location)
         os.makedirs(self._main)
         os.makedirs(os.path.join(self._main, self.folder_name))
-        os.makedirs(os.path.join(self.folder_location, "config"))
+        os.makedirs(os.path.join(self._parent_dir, "config"))
         self._create_static_template_folder(self.folder_name)
 
     def _make_initial_files(self, *pages, FunctionBased=False):
-        with open(os.path.join(self.folder_location, "config", "config.py"), "w") as config_py:
+        """ creates initial files """
+
+        with open(os.path.join(self._parent_dir, "config", "config.py"), "w") as config_py:
             config_py.write(configuration_file)
 
 
-        with open(os.path.join(self.folder_location, "run.py"), "w") as run_file:
+        with open(os.path.join(self._parent_dir, "run.py"), "w") as run_file:
             run_file.write(run(self.folder_name))
 
         with open(os.path.join(self._main, self.folder_name, "__init__.py"), "w") as main_init:
@@ -117,7 +136,6 @@ class HelperFunctions(object):
 
         with open(os.path.join(self._main, "__init__.py"), "w") as apps_init_file:
             apps_init_file.write(apps_init())
-
 
         with open(os.path.join(self.folder_location, "__init__.py"), "w") as location_init_file:
             location_init_file.write(main_init_file("config"))
@@ -128,8 +146,7 @@ class HelperFunctions(object):
                 location_init_file.write(app_init_blueprint_register(folder))
                 self._create_static_template_files(self.folder_name, folder)
                 self._create_init_routes(self._main, self.folder_name, folder, FunctionBased)
-            location_init_file.write("""
-    return app""")
+            location_init_file.write("""    return app""")
 
     def _move_run_and_config(self, folder_location, project_name):
         """moves the run.py and config folder out of created folder"""

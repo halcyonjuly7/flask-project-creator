@@ -10,6 +10,7 @@ class ClassBasedProject(CssHelper, TemplatesHelper):
 
     def __init__(self, folder_location, folder_name):
         self.folder_location = os.path.join(folder_location, folder_name)
+        self._parent_dir = folder_location
         self.folder_name = folder_name
         self._main = os.path.join(self.folder_location, "apps")
 
@@ -24,6 +25,7 @@ class ClassBasedProject(CssHelper, TemplatesHelper):
 
         for app, pages in app_names_and_pages.items():
             os.makedirs(os.path.join(self._main, app))
+            self._create_contents_of_static_folder(app)
             with open(os.path.join(self._main, app, "__init__.py"), "w") as app_file:
                 for page in pages:
                     app_file.write(app_init())
@@ -31,7 +33,7 @@ class ClassBasedProject(CssHelper, TemplatesHelper):
                     for py_file in ("__init__.py", "routes.py"):
                         with open(os.path.join(self._main, app, page, py_file), "w") as file:
                             if py_file == "__init__.py":
-                                file.write(app_init())
+                                file.write(page_blueprint(page))
                             else:
                                 file.write(nonindex_templates(app, page))
 

@@ -17,7 +17,6 @@ def choice_action(choice):
         if len(pages) > 1:#makes no sense fix this
             project = ClassBasedProject(folder_location=folder_location, folder_name=project_name)
             project.create_project(*pages)
-            project._move_run_and_config(folder_location, project_name)
             activate_venv_and_run_py_script(folder_location, virtualenv_location)
 
         else:
