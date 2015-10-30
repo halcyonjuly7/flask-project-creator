@@ -22,7 +22,6 @@ def choice_action(choice):
         project_name = input("what would you like to name this project? ")
         app_and_pages = input("what is the name of the app and what is the name of it's pages? ")
         app_and_pages = _split_app_and_pages(app_and_pages)
-        #project_location = os.path.join(parent_directory, project_name)
         apps_folder_location = os.path.join(parent_directory, project_name, "apps")
         project = ClassBasedProject()
         project.create_project(project_location=parent_directory,
@@ -30,11 +29,8 @@ def choice_action(choice):
                                parent_directory=parent_directory,
                                project_name=project_name, **app_and_pages)
         activate_venv_and_run_py_script(parent_directory, virtualenv_location)
-
-
     elif choice == 3:
         _delete_app()
-
     else:
         _add_delete_page_or_app_choice(choice)
 
@@ -46,19 +42,16 @@ def _add_delete_page_or_app_choice(choice):
     app_names_and_pages = _split_app_and_pages(app_and_pages)
     project = ClassBasedProject()
     apps_folder_location = os.path.join(folder_location, project_name, "apps")
-
     if choice == 2:
         project.add_app(project_name=project_name,
                         project_location=folder_location,
                         apps_folder_location=apps_folder_location,
                         **app_names_and_pages)
-
     elif choice == 4:
         project.add_page(project_name=project_name,
                          project_location=folder_location,
                          apps_folder_location=apps_folder_location,
                          **app_names_and_pages)
-
     elif choice == 5:
         project.delete_page(**app_and_pages)
 

@@ -161,57 +161,9 @@ from . import * """
 ##########################################################
 
 
-non_index_templates = lambda app, folder, project_name: """
-### Standard Library Imports ###
-
-################################
-
-### 3rd Party Imports ###
-from flask import render_template, redirect, url_for
-from flask.views import View
-################################
-
-### Local Imports ###
-from {project_name}.apps.{app} import {app}
-################################
-
-
-class {view_class}(View):
-    def dispatch_request(self):
-        return render_template('/{app}/{page}.html')
-
-{app}.add_url_rule('/{endpoint}', view_func={view_class}.as_view('{view_class}'), methods =['GET', 'POST'])""".format(
-  page=folder,
-  view_class="".join(item.capitalize() for item in folder.partition("page")),
-  endpoint=folder.split("_")[0],
-  app=app,
-  project_name=project_name)
-
-
-index_route_template  = lambda app, folder: """
-### Standard Library Imports ###
-
-################################
-
-### 3rd Party Imports ###
-from flask import render_template, redirect, url_for
-from flask.views import View
-################################
-
-### Local Imports ###
-from .apps.{app} import {app}
-################################
 
 
 
-class {view_class}(View):
-    def dispatch_request(self):
-      return render_template('/{app}/{page}.html')
-
-{app}.add_url_rule('/', view_func={view_class}.as_view('{view_class}'), methods =['GET', 'POST'])""".format(
-  page=folder, 
-  view_class="".join(item.capitalize() for item in folder.partition("page")), 
-  app=app)
 
 ########################################################
 
@@ -268,6 +220,9 @@ add_url_rule = lambda app, page: """{app}.add_url_rule('/{page}', view_func={vie
 
 
 ##########################################################
+
+
+
 
 ##########################################################
 #-----------------APP INIT PAGE IMPORTS------------------#

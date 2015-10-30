@@ -21,14 +21,13 @@ class ClassBasedProject(CreatorInternals, CssHelpers, HtmlHelpers, AdminHelpers)
                                  **app_names_and_pages)
         self._create_admin_folder_and_files(apps_folder_location)
 
-
-    def add_page(self, project_name=None, project_location=None, apps_folder_location=None, **app_names_and_pages):
+    def add_page(self, project_name=None, project_location=None,
+                 apps_folder_location=None, **app_names_and_pages):
         """adds a page to specified app/apps and updates templates & static folder as well ass the __init__ to reflect changes"""
 
         views_path = lambda app: os.path.join(project_location, project_name, "apps", app, "views.py")
         new_view_path = lambda app: os.path.join(project_location, project_name, "apps", app, "new_views.py")
         url_rules_path = lambda app: os.path.join(project_location, project_name, "apps", app, "url_rules.py")
-        
         for app, pages in app_names_and_pages.items():
             with open(views_path(app), "r") as read_view:
                 with open(new_view_path(app), "w") as write_view:
@@ -41,15 +40,13 @@ class ClassBasedProject(CreatorInternals, CssHelpers, HtmlHelpers, AdminHelpers)
                     if os.path.exists(os.path.join(project_location, project_name, "apps", app)):
                         for page in pages:
                             write_view.write(class_template(app, page))
-
                             if page == "index":
                                 append_to_file(file_path=(apps_folder_location,
                                                           app, "views.py"),
                                                text_format=add_url_rule_index(app, page))
-                            else:
+                              else:
                                 append_to_file(file_path=(url_rules_path(app),),
                                                text_format=add_url_rule(app, page))
-
                             append_to_file(file_path=(url_rules_path(app),),
                                            text_format=add_url_rule(app, page))
                             append_to_file(file_path=(apps_folder_location,
@@ -63,8 +60,6 @@ class ClassBasedProject(CreatorInternals, CssHelpers, HtmlHelpers, AdminHelpers)
                         with open(url_rules_path(app), "r") as read_url_rules:
                                     for line in read_url_rules:
                                         write_view.write(line)
-                        
-
                     else:
                         print("that app does not exist")
         try:
@@ -74,11 +69,9 @@ class ClassBasedProject(CreatorInternals, CssHelpers, HtmlHelpers, AdminHelpers)
         except:
             pass
 
-
     def add_app(self, project_location=None, project_name=None,
                 apps_folder_location=None, **app_names_and_pages):
         """adds additional apps and pages inside apps to existing project"""
-
 
         for app, pages in app_names_and_pages.items():
             create_directory((apps_folder_location, app))
@@ -115,21 +108,8 @@ class ClassBasedProject(CreatorInternals, CssHelpers, HtmlHelpers, AdminHelpers)
                     append_to_file(file_path=(apps_folder_location, app,
                                               "views.py"),
                                    text_format=add_url_rule(app, page))
-
-
         apps = self._get_apps(apps_folder_location)
-
         self._update_init_file(project_location, project_name, apps)
                     
 
 
-
-        # for app, pages in app_names_and_pages.items():
-        #     if os.path.exists(os.path.join(self._main, app)):
-        #         for page in pages:
-        #             os.makedirs(os.path.join(self._main, app, page))
-        #             self._create_init_routes(self._main, app, page)
-        #     else:
-        #         print("that app does not exist")
-
-        # self._update_add_app_or_page()

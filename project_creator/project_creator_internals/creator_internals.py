@@ -34,7 +34,7 @@ class CreatorInternals(object):
                 for app in apps:
                     new_file.write(app_init_page_imports(app))
                 for app in apps:
-                    if app == "main":  #loop repeated twice to achieve an certain format in __init__.py file
+                    if app == "main":  # loop repeated twice to achieve an certain format in __init__.py file
                         new_file.write(blueprint_register(app))
                     else:
                         new_file.write(blueprint_register_with_url_prefix(app))
@@ -47,7 +47,6 @@ class CreatorInternals(object):
                     text_format=models)
         create_file(file_path=(apps_folder_location, app, "forms.py"),
                     text_format=forms)
-
 
     def _create_contents_of_static_folder(self, project_location, project_name,
                                           app_name):
@@ -69,19 +68,13 @@ class CreatorInternals(object):
                                   **app_names_and_pages):
 
         """creates the initial directories"""
-        
-        
-
 
         for directory in [(project_location, project_name), (apps_folder_location,),
                           (parent_directory, "config")]:
             create_directory(directory_path=directory)
-
         for app in app_names_and_pages.keys():
             create_directory(directory_path=(apps_folder_location, app))
-            #create_directory(directory_path=(apps_folder_location, app, "routes"))
             self._create_static_template_folder(project_location, project_name, app)
-
         create_directory(directory_path=(project_location, project_name, "templates", "base"))
 
     @staticmethod
@@ -101,38 +94,26 @@ class CreatorInternals(object):
         """ creates initial files """
 
         project_init_file = (project_location, project_name, "__init__.py")
-
         create_file(file_path=(parent_directory, "config", "config.py"), 
                     text_format=configuration_file)
         create_file(file_path=(parent_directory, "run.py"),
                     text_format=run_pyfile(project_name))
         create_file(file_path=(project_location, project_name, "__init__.py"),
                     text_format=main_init_file("config"))
-
         for app, pages in app_names_and_pages.items():
-
             create_file(file_path=(apps_folder_location, app, "models.py"),
                         text_format=models)
             create_file(file_path=(apps_folder_location, app, "forms.py"),
                         text_format=forms)
-
             create_file(file_path=(apps_folder_location, app, "__init__.py"),
                         text_format=app_blueprint(app))
-
             create_file(file_path=(apps_folder_location, app, "views.py"),
                         text_format=view_imports(app, project_name))
-
-
-            
             append_to_file(file_path=project_init_file,
                            text_format=app_init_page_imports(app))
-
             for page in pages:
-                
-
                 append_to_file(file_path=(apps_folder_location, app, "views.py"),
                                text_format=class_template(app, page))
-             
                 self._create_static_template_files(project_location,
                                                    project_name, app, page)
             for page in pages:
@@ -144,22 +125,16 @@ class CreatorInternals(object):
                     append_to_file(file_path=(apps_folder_location,
                                    app, "views.py"),
                                    text_format=add_url_rule(app, page))
-
         for app in app_names_and_pages.keys():
-
             create_file(file_path=(project_location, project_name,
                                    "templates", "base", app + "_base.html"),
                         text_format=view_imports(app, project_name))
-
-
-
             if app == "main":
                 append_to_file(file_path=project_init_file,
                                text_format=blueprint_register(app))
             else:
                 append_to_file(file_path=project_init_file,
                                text_format=blueprint_register_with_url_prefix(app))
-
         append_to_file(file_path=project_init_file,
                        text_format="""    return app """)
 
