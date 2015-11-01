@@ -22,7 +22,7 @@ def remove_static_templates_app(project_location, project_name, app):
         if app != "admin":
             static_app_location = os.path.join(project_location,
                                                project_name,
-                                               "static"
+                                               "static",
                                                app)
             templates_app_location = os.path.join(project_location,
                                                   project_name,

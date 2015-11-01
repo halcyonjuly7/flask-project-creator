@@ -34,12 +34,11 @@ choose a number:
 2.add an app/apps?
 3.delete an app/apps?
 4.add a page/pages?
-5 delete a page/pages?
 """)
 
 choice = int(input("choice: "))
 
-while choice not in (1, 2, 3, 4, 5):
+while choice not in (1, 2, 3, 4):
 	choice = int(input("""
 
 It seems you did not choose a number within th choices.
@@ -50,7 +49,6 @@ choose a number:
 2.add an app/apps?
 3.delete an app/apps?
 4.add a page/pages?
-5 delete a page/pages?
 """))
 
 
