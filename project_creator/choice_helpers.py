@@ -57,11 +57,12 @@ def _add_delete_page_or_app_choice(choice):
 
 
 def _delete_app():
-    folder_location = input(r"where is the folder be located?: ")
+    parent_directory = input(r"where is the folder be located?: ")
     project_name = input("what is the project name?: ")
     apps_to_be_deleted = input("what are the apps you want to delete? separate the apps by a comma: ").split(",")
-    project = ClassBasedProject(folder_location=folder_location, folder_name=project_name)
-    project.delete_app(*apps_to_be_deleted)
+    apps_folder_location = os.path.join(parent_directory, project_name, "apps")
+    project = ClassBasedProject()
+    project.delete_app(project_name, parent_directory, apps_folder_location, *apps_to_be_deleted)
 
 
 def _show_apps(folder_location=None, folder_name=None):

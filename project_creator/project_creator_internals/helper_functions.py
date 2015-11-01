@@ -1,4 +1,5 @@
 import os
+import shutil
 from functools import partial
 
 
@@ -12,3 +13,24 @@ def create_directory(directory_path=None):
 
 
 append_to_file = partial(create_file, file_operation="a")
+
+def remove_files(*files):
+    for file in files:
+        os.remove(file)
+
+def remove_static_templates_app(project_location, project_name, app):
+        if app != "admin":
+            static_app_location = os.path.join(project_location,
+                                               project_name,
+                                               "static"
+                                               app)
+            templates_app_location = os.path.join(project_location,
+                                                  project_name,
+                                                  "templates",
+                                                  app)
+            shutil.rmtree(static_app_location)
+            shutil.rmtree(templates_app_location)
+        else:
+            raise ValueError("must delete admin app manually")
+
+
