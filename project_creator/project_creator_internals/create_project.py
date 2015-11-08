@@ -75,17 +75,15 @@ class ClassBasedProject(CreatorInternals, CssHelpers,
                         for page in pages:
                             write_view.write(class_template(app, page))
                             if page == "index":
-                                append_to_file(file_path=(apps_folder_location,
-                                                          app,
-                                                          "views.py"),
+                                append_to_file(file_path=(url_rules_path(app),),
                                                text_format=add_url_rule_index(app, page))
                             else:
                                 append_to_file(file_path=(url_rules_path(app),),
                                                text_format=add_url_rule(app, page))
-                            append_to_file(file_path=(apps_folder_location,
-                                                      app,
-                                                      "__init__.py"),
-                                           text_format=import_page(page))
+                            # append_to_file(file_path=(apps_folder_location,
+                            #                           app,
+                            #                           "__init__.py"),
+                            #                text_format=import_page(page))
                             self._create_new_css_files(project_location,
                                                        project_name,
                                                        app,
