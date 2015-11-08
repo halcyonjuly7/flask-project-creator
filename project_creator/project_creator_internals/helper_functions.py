@@ -14,9 +14,11 @@ def create_directory(directory_path=None):
 
 append_to_file = partial(create_file, file_operation="a")
 
+
 def remove_files(*files):
     for file in files:
         os.remove(file)
+
 
 def remove_static_templates_app(project_location, project_name, app):
         if app != "admin":
