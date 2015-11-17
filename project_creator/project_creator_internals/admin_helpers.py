@@ -1,5 +1,6 @@
 import os
-from .text_formats import admin_view, admin_model, forms
+from .text_formats import admin_view, admin_model, admin_forms
+
 
 class AdminHelpers:
 
@@ -12,7 +13,9 @@ class AdminHelpers:
 
     def _create_admin_files(self, app_folders_path):
         admin_files = ("admin_views.py", "admin_models.py", "admin_forms.py")
-        py_file_path = lambda py_file: os.path.join(app_folders_path, "admin", py_file)
+        py_file_path = lambda py_file: os.path.join(app_folders_path,
+                                                    "admin",
+                                                    py_file)
         for py_file in admin_files:
             with open(py_file_path(py_file), "w") as file:
                 if "views" in py_file:
@@ -20,4 +23,4 @@ class AdminHelpers:
                 elif "models" in py_file:
                     file.write(admin_model)
                 else:
-                    file.write(forms)
+                    file.write(admin_forms)

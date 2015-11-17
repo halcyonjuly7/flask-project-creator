@@ -16,7 +16,7 @@ def _split_app_and_pages(app_and_pages):
 
 def choice_action(choice):
     if choice == 1:
-        virtualenv_location = input(r"where is your venv activate script located?")
+        virtualenv_location = input(r"where is your venv activate script located? ")
         #virtualenv_location = r"C:/Flask3.5/venv/Scripts"
         parent_directory = input(r"where would this folder be created?: ")
         project_name = input("what would you like to name this project? ")

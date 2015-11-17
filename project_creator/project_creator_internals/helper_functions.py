@@ -35,4 +35,3 @@ def remove_static_templates_app(project_location, project_name, app):
         else:
             raise ValueError("must delete admin app manually")
 
-

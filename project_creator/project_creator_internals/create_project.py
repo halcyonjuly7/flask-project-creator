@@ -58,16 +58,19 @@ class ClassBasedProject(CreatorInternals, CssHelpers,
                                                   "apps",
                                                   app,
                                                   "url_rules.py")
-
+        
+        add_url_rule_line_number = 0
         for app, pages in app_names_and_pages.items():
             with open(views_path(app), "r") as read_view:
                 with open(new_view_path(app), "w") as write_view:
                     with open(url_rules_path(app), "w") as url_rules:
                         for line in read_view:
-                            if "add_url_rule" in line:
+                            if "add_url_rule" in line or add_url_rule_line_number:
                                 url_rules.write(line)
+                                add_url_rule_line_number += 1
                             else:
                                 write_view.write(line)
+                    
                     if os.path.exists(os.path.join(project_location,
                                                    project_name,
                                                    "apps",
@@ -80,10 +83,7 @@ class ClassBasedProject(CreatorInternals, CssHelpers,
                             else:
                                 append_to_file(file_path=(url_rules_path(app),),
                                                text_format=add_url_rule(app, page))
-                            # append_to_file(file_path=(apps_folder_location,
-                            #                           app,
-                            #                           "__init__.py"),
-                            #                text_format=import_page(page))
+
                             self._create_new_css_files(project_location,
                                                        project_name,
                                                        app,
@@ -151,7 +151,7 @@ class ClassBasedProject(CreatorInternals, CssHelpers,
                 self._create_new_html_files(project_location,
                                             project_name,
                                             app,
-                                            age)
+                                            page)
             for page in pages:
                 if page == "index":
                     append_to_file(file_path=(apps_folder_location,
@@ -162,6 +162,7 @@ class ClassBasedProject(CreatorInternals, CssHelpers,
                                               app,
                                               "views.py"),
                                    text_format=add_url_rule(app, page))
+                    
         apps = app_names_and_pages.keys()
         self._update_init_file(project_location, project_name, *apps)
 

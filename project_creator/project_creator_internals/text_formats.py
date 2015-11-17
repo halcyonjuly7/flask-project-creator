@@ -36,15 +36,17 @@ run_pyfile = lambda project_name: """
 ################################
 
 ### 3rd Party Imports ###
-
+from flask.ext.admin import Admin
 #################################
 
 ### Local Imports ###
 from {project} import create_app, db
+from {project}.apps.admin.admin_views import IndexView
 #################################
 
 if __name__ == "__main__":
     app = create_app("config")
+    admin = Admin(app, index_view=IndexView())
     with app.app_context():
         db.create_all()
     app.run()""".format(project=project_name)
@@ -326,10 +328,12 @@ from wtforms import TextField, PasswordField, SubmitField, FileField, HiddenFiel
 class UserForm(Form):
     username = TextField("username")
     password = PasswordField("password")
+    role = StringField("role")
 
 
 
 """
+
 
 ###########################################################
 
@@ -362,23 +366,43 @@ class IndexView(AdminIndexView):##A
 
     @expose('/')
     def index(self):
-        pass
+        return super().index()
 
 """
 admin_model = """
-from .admin_forms import UserForm, ProductForm
+from .admin_forms import UserForm
 from flask_admin.contrib.pymongo import ModelView
 
 class UserModel(ModelView):
-    column_list = ("user", "password")
+    column_list = ("user", "password", "role")
     form = UserForm
 
 
-class ProductModel(ModelView):
-    column_list = ("name", "img_path", "category", "price", "quantity")
-    form = ProductForm
+
 """
 
+admin_forms = """
+### Standard Library Imports ###
 
+################################
+
+### 3rd Party Imports ###
+from flask.ext.wtf import Form
+from wtforms import TextField, PasswordField, SubmitField, FileField, HiddenField, StringField
+################################
+
+### Local Imports ###
+
+################################
+
+
+class UserForm(Form):
+    username = TextField("username")
+    password = PasswordField("password")
+    role = StringField("role")
+
+
+
+"""
 
 ###########################################################

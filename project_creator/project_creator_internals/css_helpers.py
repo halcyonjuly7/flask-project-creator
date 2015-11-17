@@ -13,7 +13,8 @@ class CssHelpers(object):
                                "static",
                                app,
                                "css",
-                               page + ".css"),
+                               "{app}_{page}.css".format(app=app,
+                                                         page=page)),
                     text_format="{page}.css".format(page=page))
 
     def _create_new_css_folders(self,

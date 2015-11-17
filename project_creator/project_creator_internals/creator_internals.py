@@ -116,7 +116,7 @@ class CreatorInternals(object):
         new_file = os.path.join(project_location,
                                 project_name,
                                 "__init__new.py")
-        
+
         with open(old_file, "r") as old_init_file:
             with open(new_file, "w") as new_init_file:
                 for line in old_init_file:
@@ -321,6 +321,3 @@ class CreatorInternals(object):
                                                            **app_names_and_pages)
         append_to_file(file_path=project_init_file,
                        text_format="""    return app """)
-        
-
-

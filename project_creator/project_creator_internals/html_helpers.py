@@ -23,7 +23,3 @@ class HtmlHelpers(object):
                                          project_name,
                                          "templates",
                                          app))
-
-   
-
-
