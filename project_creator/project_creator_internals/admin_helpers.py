@@ -14,7 +14,6 @@ class AdminHelpers:
     @staticmethod
     def _create_admin_folder(app_folders_path):
         create_directory(directory_path=(app_folders_path, "admin"))
-        #os.makedirs(os.path.join(app_folders_path, "admin"))
 
     @staticmethod
     def _create_admin_files(app_folders_path):
@@ -42,13 +41,11 @@ class AdminHelpers:
                                            "templates",
                                            "admin_templates",
                                            "admin_base.html")
-
         admin_login_template_path = os.path.join(project_creator_path,
                                                  "static_files",
                                                  "templates",
                                                  "admin_templates",
                                                  "admin_login.html")
-
         copy_files_to(sources=(base_template_path,
                                admin_login_template_path),
                       destination=path_of_admin_templates_in_project)
@@ -61,17 +58,14 @@ class AdminHelpers:
                                                     "static",
                                                     "admin",
                                                     "css")
-
         admin_index_css_path = os.path.join(project_creator_path,
                                             "static_files",
                                             "css",
                                             "index.css")
-
         admin_sb_admin_css_path = os.path.join(project_creator_path,
-                                                "static_files",
-                                                "css",
-                                                "sb-admin-2.css")
-
+                                               "static_files",
+                                               "css",
+                                               "sb-admin-2.css")
         copy_files_to(sources=(admin_index_css_path,
                                admin_sb_admin_css_path),
                       destination=path_of_admin_css_in_project)

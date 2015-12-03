@@ -3,8 +3,6 @@ import shutil
 from .creator_internals import CreatorInternals
 from .css_helpers import CssHelpers
 from .html_helpers import HtmlHelpers
-
-
 from .helper_functions import *
 from .text_formats import *
 
@@ -34,8 +32,6 @@ class ClassBasedProject(CreatorInternals,
                                  parent_directory,
                                  project_name,
                                  **app_names_and_pages)
-
-
 
     def add_page(self,
                  project_name=None,

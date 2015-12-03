@@ -2,17 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="55507738-8889-4417-b84c-44355a101c5b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/project_creator/project_creator_internals/error_helpers.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/project_creator/project_creator_internals/misc_helpers.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/project_creator/static_files/templates/error_templates/401.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/project_creator/static_files/templates/error_templates/404.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/project_creator/static_files/templates/error_templates/500.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project_creator/project_creator_internals/admin_helpers.py" afterPath="$PROJECT_DIR$/project_creator/project_creator_internals/admin_helpers.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project_creator/project_creator_internals/create_project.py" afterPath="$PROJECT_DIR$/project_creator/project_creator_internals/create_project.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project_creator/project_creator_internals/creator_internals.py" afterPath="$PROJECT_DIR$/project_creator/project_creator_internals/creator_internals.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project_creator/project_creator_internals/css_helpers.py" afterPath="$PROJECT_DIR$/project_creator/project_creator_internals/css_helpers.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project_creator/project_creator_internals/error_helpers.py" afterPath="$PROJECT_DIR$/project_creator/project_creator_internals/error_helpers.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project_creator/project_creator_internals/helper_functions.py" afterPath="$PROJECT_DIR$/project_creator/project_creator_internals/helper_functions.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project_creator/project_creator_internals/html_helpers.py" afterPath="$PROJECT_DIR$/project_creator/project_creator_internals/html_helpers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project_creator/project_creator_internals/text_formats.py" afterPath="$PROJECT_DIR$/project_creator/project_creator_internals/text_formats.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project_creator/project_creator_internals/macros_helpers.py" afterPath="$PROJECT_DIR$/project_creator/project_creator_internals/macros_helpers.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project_creator/project_creator_internals/misc_helpers.py" afterPath="$PROJECT_DIR$/project_creator/project_creator_internals/misc_helpers.py" />
     </list>
     <ignored path="flask-project-creator.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,7 +36,7 @@
         <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/macros_helpers.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="8" column="71" selection-start-line="8" selection-start-column="71" selection-end-line="8" selection-end-column="71" />
               <folding />
             </state>
           </provider>
@@ -48,7 +46,7 @@
         <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/creator_internals.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="357" column="74" selection-start-line="357" selection-start-column="74" selection-end-line="357" selection-end-column="74" />
+              <caret line="186" column="47" selection-start-line="186" selection-start-column="47" selection-end-line="186" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -58,16 +56,16 @@
         <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/misc_helpers.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="text_formats.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="text_formats.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/text_formats.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.165829">
+            <state vertical-scroll-proportion="0.0">
               <caret line="80" column="30" selection-start-line="80" selection-start-column="30" selection-end-line="80" selection-end-column="30" />
               <folding />
             </state>
@@ -78,33 +76,17 @@
         <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/error_helpers.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="6" selection-end-column="68" />
-              <folding>
-                <marker date="1449165338107" expanded="true" signature="0:71" placeholder="import ..." />
-                <marker date="1449165338107" expanded="true" signature="92:1507" placeholder="..." />
-                <marker date="1449165338107" expanded="true" signature="170:239" placeholder="..." />
-                <marker date="1449165338107" expanded="true" signature="332:562" placeholder="..." />
-                <marker date="1449165338107" expanded="true" signature="646:1507" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="401.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/project_creator/static_files/templates/error_templates/401.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.294118">
-              <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+              <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="500.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/project_creator/static_files/templates/error_templates/500.html">
+      <file leaf-file-name="html_helpers.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/html_helpers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.9411764">
-              <caret line="4" column="16" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="8" column="37" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -114,7 +96,7 @@
         <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/helper_functions.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -124,17 +106,27 @@
         <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/admin_helpers.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="20" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
+              <caret line="42" column="61" selection-start-line="42" selection-start-column="61" selection-end-line="42" selection-end-column="61" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="create_project.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/create_project.py">
+      <file leaf-file-name="css_helpers.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/css_helpers.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <caret line="9" column="36" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="create_project.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/create_project.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="2.638191">
+              <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -159,15 +151,18 @@
         <option value="$PROJECT_DIR$/project_creator/static_files/templates/error_templates/404.html" />
         <option value="$PROJECT_DIR$/project_creator/static_files/templates/error_templates/401.html" />
         <option value="$PROJECT_DIR$/project_creator/static_files/templates/error_templates/500.html" />
-        <option value="$PROJECT_DIR$/project_creator/project_creator_internals/helper_functions.py" />
         <option value="$PROJECT_DIR$/project_creator/project_creator_internals/MiscellaneousHelpers.py" />
         <option value="$PROJECT_DIR$/project_creator/project_creator_internals/miscellanous_helpers.py" />
-        <option value="$PROJECT_DIR$/project_creator/project_creator_internals/error_helpers.py" />
-        <option value="$PROJECT_DIR$/project_creator/project_creator_internals/misc_helpers.py" />
-        <option value="$PROJECT_DIR$/project_creator/project_creator_internals/create_project.py" />
-        <option value="$PROJECT_DIR$/project_creator/project_creator_internals/admin_helpers.py" />
-        <option value="$PROJECT_DIR$/project_creator/project_creator_internals/creator_internals.py" />
         <option value="$PROJECT_DIR$/project_creator/project_creator_internals/text_formats.py" />
+        <option value="$PROJECT_DIR$/project_creator/project_creator_internals/html_helpers.py" />
+        <option value="$PROJECT_DIR$/project_creator/project_creator_internals/misc_helpers.py" />
+        <option value="$PROJECT_DIR$/project_creator/project_creator_internals/css_helpers.py" />
+        <option value="$PROJECT_DIR$/project_creator/project_creator_internals/helper_functions.py" />
+        <option value="$PROJECT_DIR$/project_creator/project_creator_internals/macros_helpers.py" />
+        <option value="$PROJECT_DIR$/project_creator/project_creator_internals/error_helpers.py" />
+        <option value="$PROJECT_DIR$/project_creator/project_creator_internals/creator_internals.py" />
+        <option value="$PROJECT_DIR$/project_creator/project_creator_internals/admin_helpers.py" />
+        <option value="$PROJECT_DIR$/project_creator/project_creator_internals/create_project.py" />
       </list>
     </option>
   </component>
@@ -238,6 +233,46 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="project_creator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-project-creator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-project-creator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="project_creator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static_files" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-project-creator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-project-creator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="project_creator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static_files" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -482,7 +517,7 @@
     <frame x="96" y="-11" width="2075" height="1444" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27428284" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27428284" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -808,26 +843,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/css_helpers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="39" selection-start-line="17" selection-start-column="39" selection-end-line="17" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/project_creator/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/html_helpers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
           <folding />
         </state>
       </provider>
@@ -856,40 +875,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/macros_helpers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/error_helpers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="6" selection-end-column="68" />
-          <folding>
-            <marker date="1449165338107" expanded="true" signature="0:71" placeholder="import ..." />
-            <marker date="1449165338107" expanded="true" signature="92:1507" placeholder="..." />
-            <marker date="1449165338107" expanded="true" signature="170:239" placeholder="..." />
-            <marker date="1449165338107" expanded="true" signature="332:562" placeholder="..." />
-            <marker date="1449165338107" expanded="true" signature="646:1507" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/misc_helpers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/create_project.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -897,15 +886,47 @@
     <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/helper_functions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/admin_helpers.py">
+    <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/text_formats.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="20" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
+          <caret line="80" column="30" selection-start-line="80" selection-start-column="30" selection-end-line="80" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/macros_helpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="71" selection-start-line="8" selection-start-column="71" selection-end-line="8" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/html_helpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="37" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/error_helpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/css_helpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="36" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
           <folding />
         </state>
       </provider>
@@ -913,15 +934,23 @@
     <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/creator_internals.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="357" column="74" selection-start-line="357" selection-start-column="74" selection-end-line="357" selection-end-column="74" />
+          <caret line="186" column="47" selection-start-line="186" selection-start-column="47" selection-end-line="186" selection-end-column="47" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/text_formats.py">
+    <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/admin_helpers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.165829">
-          <caret line="80" column="30" selection-start-line="80" selection-start-column="30" selection-end-line="80" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="42" column="61" selection-start-line="42" selection-start-column="61" selection-end-line="42" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project_creator/project_creator_internals/create_project.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.638191">
+          <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
           <folding />
         </state>
       </provider>

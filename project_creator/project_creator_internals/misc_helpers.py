@@ -14,6 +14,7 @@ class MiscHelpers:
         create_directory(directory_path=(project_location,
                                          project_name,
                                          "misc_files"))
+
     @staticmethod
     def _create_tasks(project_location, project_name):
         create_file(file_path=(project_location,
@@ -21,6 +22,7 @@ class MiscHelpers:
                                "misc_files",
                                "tasks.py"),
                     text_format=celery_task(project_name))
+
     @staticmethod
     def _create_socketio(project_location, project_name):
         create_file(file_path=(project_location,
@@ -28,7 +30,6 @@ class MiscHelpers:
                                "misc_files",
                                "socketio.py"),
                     text_format=socket_io(project_name))
-
 
     @staticmethod
     def _create_helper_functions(project_location, project_name):

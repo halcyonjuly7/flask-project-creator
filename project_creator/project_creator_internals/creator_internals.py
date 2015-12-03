@@ -7,11 +7,10 @@ from .error_helpers import ErrorHelpers
 from .admin_helpers import AdminHelpers
 
 
-
 class CreatorInternals(MiscHelpers,
                        ErrorHelpers,
-                       AdminHelpers):
-
+                       AdminHelpers,
+                       MacrosHelpers):
     STATIC_SUBFOLDERS = ("css", "img", "font", "scripts")
 
     @staticmethod
@@ -113,15 +112,6 @@ class CreatorInternals(MiscHelpers,
                     text_format=main_init_file("config"))
 
     @staticmethod
-    def _create_helper_functions(project_location, project_name):
-        create_file(file_path=(project_location,
-                               project_name,
-                               "misc_files",
-                               "helper_functions.py"),
-                    text_format=check_password_hash)
-
-
-    @staticmethod
     def _update_init_for_deleted_apps(project_name,
                                       project_location,
                                       *app_names):
@@ -194,22 +184,12 @@ class CreatorInternals(MiscHelpers,
                     text_format=html_template(app_name, page))
 
     @staticmethod
-    def _create_macros(project_location, project_name):
-      macros = MacrosHelpers(project_location, project_name)
-      macros._create_macros_files()
-
-
-    @staticmethod
     def _create_celery_worker(parent_directory,
-                                       project_location,
-                                       project_name):
+                              project_name):
 
         create_file(file_path=(parent_directory,
                                "celery_worker.py"),
                     text_format=celery_worker(project_name))
-
-
-
 
     def _update_init_file(self,
                           project_location,
@@ -238,7 +218,6 @@ class CreatorInternals(MiscHelpers,
                                     imports_py_file,
                                     app_register_py_file,
                                     *apps)
-
         self._write_to_new_init_file_and_update(old_py_file,
                                                 new_py_file,
                                                 imports_py_file,
@@ -340,7 +319,6 @@ class CreatorInternals(MiscHelpers,
         self._create_admin_folder(apps_folder_location)
         self._create_error_templates_folder(project_location, project_name)
         self._create_misc_folder(project_location, project_name)
-
         self._create_contents_of_static_folder(project_location,
                                                project_name,
                                                "admin")
@@ -354,11 +332,9 @@ class CreatorInternals(MiscHelpers,
         """ creates initial files """
 
         project_init_file = (project_location, project_name, "__init__.py")
-
         self._create_error_templates_files(project_location, project_name)
         self._create_misc_files(project_location, project_name)
-        self._create_macros(project_location, project_name)
-
+        self._create_macros_files(project_location, project_name)
         self._create_celery_worker(parent_directory,
                                    project_location,
                                    project_name)

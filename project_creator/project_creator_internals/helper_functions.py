@@ -9,11 +9,9 @@ def create_file(file_path=None, text_format=None, file_operation="w"):
 
 append_to_file = partial(create_file, file_operation="a")
 
+
 def create_directory(directory_path=None):
     os.makedirs(os.path.join(*directory_path))
-
-
-
 
 
 def remove_files(*files):
