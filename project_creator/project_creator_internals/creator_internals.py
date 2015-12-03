@@ -1,10 +1,16 @@
 import os
 from .helper_functions import *
-from collections import namedtuple, OrderedDict
 from .text_formats import *
+from .macros_helpers import MacrosHelpers
+from .misc_helpers import MiscHelpers
+from .error_helpers import ErrorHelpers
+from .admin_helpers import AdminHelpers
 
 
-class CreatorInternals(object):
+
+class CreatorInternals(MiscHelpers,
+                       ErrorHelpers,
+                       AdminHelpers):
 
     STATIC_SUBFOLDERS = ("css", "img", "font", "scripts")
 
@@ -63,9 +69,12 @@ class CreatorInternals(object):
         """creates the base templates for each app and the register_blueprint to main_init_file"""
 
         for app in app_names_and_pages.keys():
-            create_file(file_path=(project_location, project_name,
-                                   "templates", "base_templates", app + "_base.html"),
-                        text_format=view_imports(app, project_name))
+            create_file(file_path=(project_location,
+                                   project_name,
+                                   "templates",
+                                   "base_templates",
+                                   app + "_base.html"),
+                        text_format=base_template(app, project_name))
             if app == "main":
                 append_to_file(file_path=project_init_file,
                                text_format=blueprint_register(app))
@@ -102,6 +111,15 @@ class CreatorInternals(object):
                                project_name,
                                "__init__.py"),
                     text_format=main_init_file("config"))
+
+    @staticmethod
+    def _create_helper_functions(project_location, project_name):
+        create_file(file_path=(project_location,
+                               project_name,
+                               "misc_files",
+                               "helper_functions.py"),
+                    text_format=check_password_hash)
+
 
     @staticmethod
     def _update_init_for_deleted_apps(project_name,
@@ -165,15 +183,33 @@ class CreatorInternals(object):
                                "static",
                                app_name,
                                "css",
-                               page + ".css"),
-                    text_format="text")
+                               css_file(app_name, page)),
+                    text_format="{page}.css".format(page=page))
 
         create_file(file_path=(project_location,
                                project_name,
                                "templates",
                                app_name,
-                               page + ".html"),
+                               html_file(app_name, page)),
                     text_format=html_template(app_name, page))
+
+    @staticmethod
+    def _create_macros(project_location, project_name):
+      macros = MacrosHelpers(project_location, project_name)
+      macros._create_macros_files()
+
+
+    @staticmethod
+    def _create_celery_worker(parent_directory,
+                                       project_location,
+                                       project_name):
+
+        create_file(file_path=(parent_directory,
+                               "celery_worker.py"),
+                    text_format=celery_worker(project_name))
+
+
+
 
     def _update_init_file(self,
                           project_location,
@@ -260,6 +296,7 @@ class CreatorInternals(object):
         self._create_contents_of_static_folder(project_location,
                                                project_name,
                                                app_name)
+
         create_directory(directory_path=(project_location,
                                          project_name,
                                          "templates",
@@ -274,9 +311,11 @@ class CreatorInternals(object):
 
         """creates the initial directories"""
 
-        for directory in [(project_location, project_name), (apps_folder_location,),
+        for directory in [(project_location, project_name),
+                          (apps_folder_location,),
                           (parent_directory, "config")]:
             create_directory(directory_path=directory)
+        
         for app in app_names_and_pages.keys():
             create_directory(directory_path=(apps_folder_location, app))
             self._create_static_template_folder(project_location,
@@ -293,8 +332,18 @@ class CreatorInternals(object):
                                          "templates",
                                          "admin_templates"))
 
+        create_directory(directory_path=(project_location,
+                                         project_name,
+                                         "templates",
+                                         "macros_templates"))
+
+        self._create_admin_folder(apps_folder_location)
+        self._create_error_templates_folder(project_location, project_name)
+        self._create_misc_folder(project_location, project_name)
+
         self._create_contents_of_static_folder(project_location,
-                                               project_name, "admin")
+                                               project_name,
+                                               "admin")
 
     def _make_initial_files(self,
                             project_location,
@@ -305,16 +354,25 @@ class CreatorInternals(object):
         """ creates initial files """
 
         project_init_file = (project_location, project_name, "__init__.py")
+
+        self._create_error_templates_files(project_location, project_name)
+        self._create_misc_files(project_location, project_name)
+        self._create_macros(project_location, project_name)
+
+        self._create_celery_worker(parent_directory,
+                                   project_location,
+                                   project_name)
+        self._create_all_admin_files(apps_folder_location,
+                                     project_location,
+                                     project_name)
         self._create_config_run_and_main_init_file(parent_directory,
                                                    project_location,
                                                    project_name)
-
         self._write_to_views_and_main_init_file(project_init_file,
                                                 project_location,
                                                 project_name,
                                                 apps_folder_location,
                                                 **app_names_and_pages)
-
         self._create_base_template_and_register_blueprints(project_init_file,
                                                            project_location,
                                                            project_name,

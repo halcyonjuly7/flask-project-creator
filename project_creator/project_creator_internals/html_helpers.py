@@ -1,5 +1,7 @@
 from .helper_functions import *
 
+
+
 class HtmlHelpers(object):
     def _create_new_html_files(self,
                                project_location,
@@ -11,7 +13,7 @@ class HtmlHelpers(object):
                                project_name,
                                "templates",
                                app,
-                               page + ".html"),
+                               "{app}_{page}.html".format(app=app, page=page)),
                     text_format="<h1>hurray it worked this is your {app} {page} page </h1>".format(app=app, page=page))
 
     def _create_new_html_folders(self,
@@ -23,3 +25,5 @@ class HtmlHelpers(object):
                                          project_name,
                                          "templates",
                                          app))
+
+    

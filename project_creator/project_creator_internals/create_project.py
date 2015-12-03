@@ -3,12 +3,15 @@ import shutil
 from .creator_internals import CreatorInternals
 from .css_helpers import CssHelpers
 from .html_helpers import HtmlHelpers
-from .admin_helpers import AdminHelpers
+
+
 from .helper_functions import *
 from .text_formats import *
 
-class ClassBasedProject(CreatorInternals, CssHelpers,
-                        HtmlHelpers, AdminHelpers):
+
+class ClassBasedProject(CreatorInternals,
+                        CssHelpers,
+                        HtmlHelpers):
 
     def create_project(self,
                        project_location=None,
@@ -32,7 +35,7 @@ class ClassBasedProject(CreatorInternals, CssHelpers,
                                  project_name,
                                  **app_names_and_pages)
 
-        self._create_admin_folder_and_files(apps_folder_location)
+
 
     def add_page(self,
                  project_name=None,
