@@ -1,7 +1,7 @@
 import os
 import shutil
 from .text_formats import admin_view, admin_model, admin_forms
-from .helper_functions import create_directory, copy_files_to
+from .helper_functions import create_directory, copy_files_to, create_file
 
 
 class AdminHelpers:
@@ -10,10 +10,14 @@ class AdminHelpers:
         self._create_admin_files(app_folders_path)
         self._create_admin_base_templates(project_location, project_name)
         self._create_admin_base_css(project_location, project_name)
+        self._copy_master_html(project_location, project_name)
 
     @staticmethod
-    def _create_admin_folder(app_folders_path):
+    def _create_admin_folder(app_folders_path, project_location, project_name):
         create_directory(directory_path=(app_folders_path, "admin"))
+        create_directory(directory_path=(project_location, project_name, "templates", "admin"))
+
+
 
     @staticmethod
     def _create_admin_files(app_folders_path):
@@ -70,6 +74,19 @@ class AdminHelpers:
                                admin_sb_admin_css_path),
                       destination=path_of_admin_css_in_project)
 
+    @staticmethod
+    def _copy_master_html(project_location, project_name):
+        project_creator_path = os.path.dirname(os.path.dirname(__file__))
+        master_html_path = os.path.join(project_creator_path,
+                                        "static_files",
+                                        "templates",
+                                        "admin_templates",
+                                        "master.html")
+        master_html_destination = os.path.join(project_location,
+                                               project_name,
+                                               "templates",
+                                               "admin")
+        copy_files_to(sources=(master_html_path,), destination=master_html_destination)
 
 
 

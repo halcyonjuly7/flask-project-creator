@@ -316,7 +316,7 @@ class CreatorInternals(MiscHelpers,
                                          "templates",
                                          "macros_templates"))
 
-        self._create_admin_folder(apps_folder_location)
+        self._create_admin_folder(apps_folder_location, project_location, project_name)
         self._create_error_templates_folder(project_location, project_name)
         self._create_misc_folder(project_location, project_name)
         self._create_contents_of_static_folder(project_location,
@@ -336,7 +336,6 @@ class CreatorInternals(MiscHelpers,
         self._create_misc_files(project_location, project_name)
         self._create_macros_files(project_location, project_name)
         self._create_celery_worker(parent_directory,
-                                   project_location,
                                    project_name)
         self._create_all_admin_files(apps_folder_location,
                                      project_location,
