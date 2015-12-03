@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		    <title></title>
+		    <meta charset='utf-8'>
+		    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+		    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='admin/css/admin_login.css')}}">
+	    </head>
+	<body>
+
+
+	
+	{% with messages = get_flashed_messages() %}
+
+		{% if messages  %}
+			{% for message in messages %}
+				<p>{{message}}</p>
+
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+
+
+		<div class="row">
+			<div class="col-md-4 form center-block">
+				<form action="" method="POST" role="form">
+					<legend>Login</legend>
+					<div class="form-group">
+						<label for="">Username</label>
+						<input type="text" name="username" class="form-control" id="" require="true" placeholder="Username">
+					</div>
+					<div class="form-group">
+						<label for="">Password</label>
+						<input type="password" name="password" class="form-control" id="" require="true" placeholder="Password">
+					</div>
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
