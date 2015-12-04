@@ -74,7 +74,7 @@ class CreatorInternals(MiscHelpers,
                                    "base_templates",
                                    app + "_base.html"),
                         text_format=base_template(app, project_name))
-            if app == "main":
+            if app.lower() == "main":
                 append_to_file(file_path=project_init_file,
                                text_format=blueprint_register(app))
             else:
@@ -244,7 +244,7 @@ class CreatorInternals(MiscHelpers,
                                                    app,
                                                    page)
             for page in pages:
-                if page == "index":
+                if page.lower() == "index":
                     append_to_file(file_path=(apps_folder_location,
                                               app,
                                               "views.py"),

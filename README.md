@@ -2,15 +2,38 @@
 
 Flask-Project-Creator
 ---------------------
+**What is Flask-Project-Creator?**
+Flask-Project-Creator is a boiler plate template for your flask app
+packed with many features. It creates a scalable, manageable and modular folder structure so your app structure won't be a mess. Inspired by the recommended app structure for scalable apps on Miguel Grinbergs  O'reilly Video "An Introduction to flask".
 
-Creates a scalable folder structure for your Flask project in seconds 
+**Flask-Project-Creator Features**:
 
-just run the **flask_project_creator.py** inside it's folder after you've downloaded or cloned this project
+ - flask-admin integration with a different look and an admin login page included
+ - celery integration
+ - flask-socketio integration
+ - add an app and even specify the pages you want for that app
+ - auto blueprint registration when you add an app
+ - auto views file  update when you add a page 
+ - auto create html files and css files for every page you create
 
-**example**:
+
+
+
+**Why use Flask-Project-Creator**?
+
+ - if you're tired of creating the same boilerplate over and over again
+ - if you'd want to focus on getting down to the nitty gritty of making your app
+ - if you want a sane, scalable, and modular folder structure for you flask project
+
+
+**How to use  Flask-Project-Creator?**
+
+just run the **flask_project_creator.py** inside the folder after you've downloaded or cloned this project. 
+
+**Example**:
 
 Creating a project called **Music_Store** with an app of **music** and the pages of
- **index,about,home**
+ **index, about, home**
 
   
 
@@ -21,6 +44,7 @@ Creating a project called **Music_Store** with an app of **music** and the pages
 	config/
 		config.py
 	
+	celery_workers.py
 	run.py
 	
 	Music_Store/
@@ -30,13 +54,22 @@ Creating a project called **Music_Store** with an app of **music** and the pages
 				admin_views.py
 				admin_forms.py
 				admin_models.py
+				
 			music/
 				forms.py
 				views.py
 				models.py
+		
+		misc_files/
+			helper_functions.py
+			workers.py
+			socketio.py
+	
 		static/
 			admin/
 				css/
+					index.css
+					sb2admin.css
 				img/
 				font/
 				scripts/
@@ -46,12 +79,30 @@ Creating a project called **Music_Store** with an app of **music** and the pages
 					index.css
 					about.css
 					home.css
+				
 				img/
 				font/
 				scripts/
+				
 		templates/
+			admin/
+				master.html
+				
 			admin_templates/
+				admin_login.html
+				admin_base.html
+				
 			base_templates/
+				music_base.html
+				
+			macros_template/
+				macros.html
+				
+			error_templates/
+				400.html
+				401.html
+				500.html
+				
 			music/
 				index.html
 				about.html
@@ -63,6 +114,10 @@ Creating a project called **Music_Store** with an app of **music** and the pages
 				
 		
 	
+
+
+----------
+
 
 so what happened to the pages you specified? the pages are already written in you views.py file inside the appropriate app folder
 
@@ -82,18 +137,22 @@ The options when you run **flask_project_creator.py** are:
 ----------
 **ALL ARGUMENT NEED NOT BE ENCLOSED IN QOUTES**
 
-**add an app/apps** takes key-value pairs of app name and it's pages
+**add an app/apps** takes key-value pairs of an app name and it's pages
 the pages have to be inclosed in a brace **[]** and if you want to add multiple apps separate the key-value pairs by a comma like below:
 
-> this option also automatically registers each app on the root \__init__.py
-> each app is a blueprint and the blueprint name is the app name you specified
+> this option automatically registers each app on the root \__init__.py
+> each app is a blueprint and the blueprint name is the app name you specified.  
 
 *Single app*:
 
-    New_App = [new_page, new_page2]
+> if you want top level access to your routes you should specify an app called **main** this app will be the top most routes of your app. If you want to have an **index** page for each of your apps then give index as one of the app's value,
+
+
+    main = [index, contacts]
 *Multiple apps*:
 
-    New_App = [new_page, new_page2], New_App2 = [new_page]
+    main = [index, contacts],
+    careers = [index, search, jobs]
     
 
 
@@ -106,10 +165,10 @@ the pages have to be inclosed in a brace **[]** and if you want to add multiple 
 
 *Single app:*
 
-	App_to_be_deleted
+	main 
 *Multiple apps:*
 
-    App_to_be_deleted, App_to_be_deleted2
+    main, careers
 
 
 ----------
@@ -123,12 +182,12 @@ the pages have to be inclosed in a brace **[]** and if you want to add multiple 
 *Single app add page:*
    
 
-     App = [new_added_page, new_added_page2]
+     services = [index, showcase]
 
 *Multiple apps with multiple pages:*
 
-    App = [new_added_page,new_added_page2], 
-    App2 = [new_page]
+    services = [index, showcase], 
+    accounts = [index, settings]
   
   
 
