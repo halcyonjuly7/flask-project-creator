@@ -317,7 +317,7 @@ html_template = lambda app_name, folder: """
   <head>
     <title></title>
     <meta charset='utf-8'>
-    <link rel="stylesheet" href="{{{{url_for('static',filename='{app}/css/{css_file}')}}}}">
+    <link rel="stylesheet" href="{{{{url_for('static',filename='{app}/css/{app}_{css_file}')}}}}">
   </head>
   <body>
     <h1>Hooray it works! this is your {app} {page_name} page </h1>
@@ -535,7 +535,7 @@ def generate_password(password):
 ###########################################################
 
 
-wtform_render_field = """
+wtform_render_field_and_flash_message = """
 {% macro render_field(field) %}
   <dt>{{ field.label }}
   <dd>{{ field(**kwargs)|safe }}
@@ -548,6 +548,18 @@ wtform_render_field = """
   {% endif %}
   </dd>
 {% endmacro %}
+
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 """
 ###########################################################
 
@@ -596,3 +608,49 @@ from {project_name} import socketio
 def handle_message(message):
     emit("testing", {{"data": "hekko"}})
 """.format(project_name=project_name)
+
+
+
+############################################################
+#--------------------------Tests---------------------------#
+############################################################
+
+
+
+
+tests_format = lambda app, project_name:  """
+
+import unittest
+from {project_name} import create_app
+from flask import url_for
+
+
+class {app}TestCase(unittest.TestCase):
+    def setUp(self):
+        self.app = create_app("tests_config")
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        self.client = self.app.test_client(use_cookies=True)
+
+    def tearDown(self):
+        self.app_context.pop()
+
+""".format(app=app, project_name=project_name)
+
+
+page_tests = lambda app, page: """
+    def test_{app}_{page}(self):
+            response = self.client.get(url_for("{app}.{page}"))
+
+""".format(app=app, page=page.title())
+
+
+test_bottom = """
+
+if __name__ == '__main__':
+    unittest.main()
+"""
+
+###########################################################
+
+

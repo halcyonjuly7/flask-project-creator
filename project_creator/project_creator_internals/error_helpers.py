@@ -1,5 +1,5 @@
 import os
-from .helper_functions import create_directory, copy_files_to
+from .helper_functions import create_directory, copy_files_to, get_files_from_directory
 
 class ErrorHelpers:
 
@@ -25,8 +25,7 @@ class ErrorHelpers:
                                                         project_name,
                                                         "templates",
                                                         "error_templates")
-        error_templates = tuple(os.path.join(error_templates_path,template)
-                                for template in os.listdir(error_templates_path))
+        error_templates = get_files_from_directory(error_templates_path)
         copy_files_to(sources=error_templates, destination=destination_error_templates_path)
 
 

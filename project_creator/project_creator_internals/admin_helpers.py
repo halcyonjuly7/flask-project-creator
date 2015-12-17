@@ -1,7 +1,7 @@
 import os
 import shutil
 from .text_formats import admin_view, admin_model, admin_forms
-from .helper_functions import create_directory, copy_files_to, create_file
+from .helper_functions import create_directory, copy_files_to, create_file, get_files_from_directory
 
 
 class AdminHelpers:
@@ -62,16 +62,19 @@ class AdminHelpers:
                                                     "static",
                                                     "admin",
                                                     "css")
-        admin_index_css_path = os.path.join(project_creator_path,
-                                            "static_files",
-                                            "css",
-                                            "index.css")
-        admin_sb_admin_css_path = os.path.join(project_creator_path,
-                                               "static_files",
-                                               "css",
-                                               "sb-admin-2.css")
-        copy_files_to(sources=(admin_index_css_path,
-                               admin_sb_admin_css_path),
+        admin_css_path = os.path.join(project_creator_path,
+                                      "static_files",
+                                      "css")
+        # admin_index_css_path = os.path.join(project_creator_path,
+        #                                     "static_files",
+        #                                     "css",
+        #                                     "index.css")
+        # admin_sb_admin_css_path = os.path.join(project_creator_path,
+        #                                        "static_files",
+        #                                        "css",
+        #                                        "sb-admin-2.css")
+        admin_css_files = get_files_from_directory(admin_css_path)
+        copy_files_to(sources=admin_css_files,
                       destination=path_of_admin_css_in_project)
 
     @staticmethod

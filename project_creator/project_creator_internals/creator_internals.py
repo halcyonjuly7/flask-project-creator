@@ -5,12 +5,16 @@ from .macros_helpers import MacrosHelpers
 from .misc_helpers import MiscHelpers
 from .error_helpers import ErrorHelpers
 from .admin_helpers import AdminHelpers
+from .html_helpers import HtmlHelpers
+from .test_helpers import TestHelpers
 
 
 class CreatorInternals(MiscHelpers,
                        ErrorHelpers,
                        AdminHelpers,
-                       MacrosHelpers):
+                       MacrosHelpers,
+                       HtmlHelpers,
+                       TestHelpers):
     STATIC_SUBFOLDERS = ("css", "img", "font", "scripts")
 
     @staticmethod
@@ -60,26 +64,18 @@ class CreatorInternals(MiscHelpers,
                      app_register_py_file)
         os.rename(new_py_file, old_py_file)
 
-    @staticmethod
-    def _create_base_template_and_register_blueprints(project_init_file,
-                                                      project_location,
-                                                      project_name,
-                                                      **app_names_and_pages):
-        """creates the base templates for each app and the register_blueprint to main_init_file"""
 
-        for app in app_names_and_pages.keys():
-            create_file(file_path=(project_location,
-                                   project_name,
-                                   "templates",
-                                   "base_templates",
-                                   app + "_base.html"),
-                        text_format=base_template(app, project_name))
-            if app.lower() == "main":
-                append_to_file(file_path=project_init_file,
+
+    @staticmethod
+    def _register_blueprint(project_init_file, app):
+
+        if app.lower() == "main":
+            append_to_file(file_path=project_init_file,
                                text_format=blueprint_register(app))
-            else:
-                append_to_file(file_path=project_init_file,
-                               text_format=blueprint_register_with_url_prefix(app))
+        else:
+            append_to_file(file_path=project_init_file,
+                           text_format=blueprint_register_with_url_prefix(app))
+
 
     @staticmethod
     def _get_apps(path):
@@ -161,6 +157,12 @@ class CreatorInternals(MiscHelpers,
                                "views.py"),
                     text_format=view_imports(app, project_name))
 
+        create_file(file_path=(apps_folder_location,
+                               app,
+                               "tests.py"),
+                    text_format=tests_format(app, project_name))
+
+
     @staticmethod
     def _create_static_template_files(project_location,
                                       project_name,
@@ -190,6 +192,37 @@ class CreatorInternals(MiscHelpers,
         create_file(file_path=(parent_directory,
                                "celery_worker.py"),
                     text_format=celery_worker(project_name))
+
+
+    @staticmethod
+    def _append_to_views(app, page, apps_folder_location):
+
+        if page.lower() == "index":
+            append_to_file(file_path=(apps_folder_location,
+                                      app,
+                                      "views.py"),
+                           text_format=add_url_rule_index(app, page))
+        else:
+            append_to_file(file_path=(apps_folder_location,
+                                      app,
+                                      "views.py"),
+                           text_format=add_url_rule(app, page))
+
+
+    def _create_base_template_and_register_blueprints(self,
+                                                      project_init_file,
+                                                      project_location,
+                                                      project_name,
+                                                      **app_names_and_pages):
+        """creates the base templates for each app and the register_blueprint to main_init_file"""
+
+        for app in app_names_and_pages.keys():
+            self._create_base_templates(project_location, project_name, app)
+            self._register_blueprint(project_init_file, app)
+
+
+
+
 
     def _update_init_file(self,
                           project_location,
@@ -238,22 +271,12 @@ class CreatorInternals(MiscHelpers,
                                           app,
                                           "views.py"),
                                text_format=class_template(app, page))
-
                 self._create_static_template_files(project_location,
                                                    project_name,
                                                    app,
                                                    page)
             for page in pages:
-                if page.lower() == "index":
-                    append_to_file(file_path=(apps_folder_location,
-                                              app,
-                                              "views.py"),
-                                   text_format=add_url_rule_index(app, page))
-                else:
-                    append_to_file(file_path=(apps_folder_location,
-                                              app,
-                                              "views.py"),
-                                   text_format=add_url_rule(app, page))
+                self._append_to_views(app, page, apps_folder_location)
 
     def _create_contents_of_static_folder(self, project_location, project_name,
                                           app_name):
@@ -348,6 +371,7 @@ class CreatorInternals(MiscHelpers,
                                                 project_name,
                                                 apps_folder_location,
                                                 **app_names_and_pages)
+        self._create_test_pages(project_name, project_location, **app_names_and_pages)
         self._create_base_template_and_register_blueprints(project_init_file,
                                                            project_location,
                                                            project_name,

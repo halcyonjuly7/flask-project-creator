@@ -38,3 +38,7 @@ def remove_static_templates_app(project_location, project_name, app):
 def copy_files_to(sources = None, destination= None):
     for source in sources:
         shutil.copy(source, destination)
+
+
+def get_files_from_directory(directory_path=None):
+    return tuple(os.path.join(directory_path, item) for item in os.listdir(directory_path))

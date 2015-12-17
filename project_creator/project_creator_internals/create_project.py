@@ -8,8 +8,7 @@ from .text_formats import *
 
 
 class ClassBasedProject(CreatorInternals,
-                        CssHelpers,
-                        HtmlHelpers):
+                        CssHelpers):
 
     def create_project(self,
                        project_location=None,
@@ -57,45 +56,49 @@ class ClassBasedProject(CreatorInternals,
                                                   "apps",
                                                   app,
                                                   "url_rules.py")
+
+        """Todo use create a file"""
         
-        add_url_rule_line_number = 0
+
+        self._update_test_page(apps_folder_location, **app_names_and_pages)
+
         for app, pages in app_names_and_pages.items():
+            bottom_of_page = False
             with open(views_path(app), "r") as read_view:
                 with open(new_view_path(app), "w") as write_view:
                     with open(url_rules_path(app), "w") as url_rules:
                         for line in read_view:
-                            if "add_url_rule" in line or add_url_rule_line_number:
+                            if "add_url_rule" in line or bottom_of_page:
                                 url_rules.write(line)
-                                add_url_rule_line_number += 1
+                                bottom_of_page = True
                             else:
                                 write_view.write(line)
-                    
                     if os.path.exists(os.path.join(project_location,
                                                    project_name,
                                                    "apps",
                                                    app)):
                         for page in pages:
-                            write_view.write(class_template(app, page))
                             if page == "index":
                                 append_to_file(file_path=(url_rules_path(app),),
                                                text_format=add_url_rule_index(app, page))
                             else:
                                 append_to_file(file_path=(url_rules_path(app),),
                                                text_format=add_url_rule(app, page))
-
                             self._create_new_css_files(project_location,
                                                        project_name,
                                                        app,
                                                        page)
-
                             self._create_new_html_files(project_location,
                                                         project_name,
                                                         app,
                                                         page)
 
+                            write_view.write(class_template(app, page))
+
                         with open(url_rules_path(app), "r") as read_url_rules:
                                     for line in read_url_rules:
                                         write_view.write(line)
+
                     else:
                         print("that app does not exist")
             try:
@@ -103,6 +106,7 @@ class ClassBasedProject(CreatorInternals,
                 os.rename(new_view_path(app), views_path(app))
             except:
                 pass
+
 
     def add_app(self,
                 project_location=None,
@@ -113,56 +117,38 @@ class ClassBasedProject(CreatorInternals,
 
         for app, pages in app_names_and_pages.items():
             create_directory((apps_folder_location, app))
-
             self._create_new_css_folders(project_location,
                                          project_name,
                                          app)
-
             self._create_new_html_folders(project_location,
                                           project_name,
                                           app)
-
             self._create_app_files(project_name,
                                    apps_folder_location,
                                    app)
-
             self._create_contents_of_static_folder(project_location,
                                                    project_name,
                                                    app)
-
-            create_file(file_path=(project_location,
-                                   project_name,
-                                   "templates",
-                                   "base_templates",
-                                   app + "_base.html"),
-                        text_format=view_imports(app, project_name))
+            self._create_base_templates(project_location, project_name, app)
 
             for page in pages:
                 append_to_file(file_path=(apps_folder_location,
                                           app,
                                           "views.py"),
                                text_format=class_template(app, page))
-
                 self._create_new_css_files(project_location,
                                            project_name,
                                            app, page)
-
                 self._create_new_html_files(project_location,
                                             project_name,
                                             app,
                                             page)
             for page in pages:
-                if page == "index":
-                    append_to_file(file_path=(apps_folder_location,
-                                              app, "views.py"),
-                                   text_format=add_url_rule_index(app, page))
-                else:
-                    append_to_file(file_path=(apps_folder_location,
-                                              app,
-                                              "views.py"),
-                                   text_format=add_url_rule(app, page))
-                    
+                self._append_to_views(app, page, apps_folder_location)
+
+
         apps = app_names_and_pages.keys()
+        self._create_test_pages(project_name, project_location, **app_names_and_pages)
         self._update_init_file(project_location, project_name, *apps)
 
     def delete_app(self,
