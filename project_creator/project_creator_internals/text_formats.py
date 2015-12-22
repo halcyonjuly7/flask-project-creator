@@ -27,7 +27,8 @@ UPLOAD_FOLDER =  ""
 
 
 SQALCHEMY_DATABASE_URI = "sqlite:/// + os.path.join(os.path.dirname(__file__), ../data-dev.sqlite3 "
-SECRET_KEY = "secret123456"
+
+
 ###############################
 
 #------------------------------#
@@ -56,6 +57,14 @@ CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
 
 ################################
 
+################################
+########## SECURITY  ###########
+################################
+
+SECRET_KEY = "secret123456"
+SECURITY_PASSWORD_SALT = "securitysalt1234"
+
+################################
 """
 
 ############################################################
@@ -83,7 +92,7 @@ from {project_name}.apps.admin.admin_views import IndexView
 #################################
 
 if __name__ == "__main__":
-    app = create_app("config")
+    app = create_app("developement_config")
     admin = Admin(app, index_view=IndexView())
     with app.app_context():
         db.create_all()
@@ -419,12 +428,10 @@ admin_view = """
 
 
 ### 3rd Party Imports ###
-
 from flask import render_template, redirect, url_for, request
 from flask.ext.admin import AdminIndexView, expose
 from flask.ext.login import current_user, login_required
 from flask.views import MethodView
-
 ################################
 
 
@@ -460,16 +467,12 @@ admin_model = """
 
 
 ### 3rd Party Imports ###
-
 from flask_admin.contrib.pymongo import ModelView
-
 ################################
 
 
 ### Local Imports ###
-
 from .admin_forms import UserForm
-
 ################################
 
 
@@ -506,7 +509,24 @@ class UserForm(Form):
 """
 
 
+admin_tests = lambda project_name: """
 
+import unittest
+from {project_name} import create_app
+from flask import url_for
+
+
+class AdminTestCase(unittest.TestCase):
+    def setUp(self):
+        self.app = create_app("tests_config")
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        self.client = self.app.test_client(use_cookies=True)
+
+    def tearDown(self):
+        self.app_context.pop()
+
+""".format(project_name=project_name)
 
 
 
@@ -516,18 +536,84 @@ class UserForm(Form):
 ###########################################################
 
 ###########################################################
-#-------------CHECK PASSWORD AND PASSWORD HASH-----------#
+#-----------------------HELPER FUNCTIONS------------------#
 ###########################################################
 
-check_password_hash = """
+misc_functions = lambda project_name : """
+
+### Standard Library Imports ###
+from functools import wraps
+################################
+
+
+### 3rd Party Imports ###
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
+from flask import url_for, redirect, render_template, flash
+from itsdangerous import URLSafeTimedSerializer
+from flask.ext.login import current_user
+from flask.ext.mail import Message
+################################
+
+
+### Local Imports ###
+from {project_name} import mail
+from config.developement_config  import SECRET_KEY, SECURITY_PASSWORD_SALT, MAIL_USERNAME
+################################
 
 def check_password(password_hash, password):
     return check_password_hash(password_hash, password)
 
 def generate_password(password):
     return generate_password_hash(password)
-"""
+
+def generate_confirmation_token(email):
+    serializer = URLSafeTimedSerializer(SECRET_KEY)
+    return serializer.dumps(email, salt=SECURITY_PASSWORD_SALT)
+
+def confirm_token(token, expiration=3600):
+    serializer = URLSafeTimedSerializer(SECRET_KEY)
+    try:
+        email = serializer.loads(
+            token,
+            salt=SECURITY_PASSWORD_SALT,
+            max_age=expiration
+        )
+        return email
+    except:
+        return False
+
+def send_email(to, subject, template):
+    msg = Message(
+        subject,
+        recipients=[to],
+        html=template,
+        sender=MAIL_USERNAME
+    )
+    mail.send(msg)
+
+def protect_admin_index_view(view):
+    def wrap(*args, **kwargs):
+        try:
+            if "admin" in current_user.role:
+                return view(*args, **kwargs)
+            else:
+                return redirect(url_for('admin.login'))
+        except:
+            return redirect(url_for('admin.login'))
+    return wrap
+
+def check_confirmation(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if not current_user.confirmed:
+            flash("Please confirm your account")
+            return redirect(url_for("main.unconfirmed"))
+        else:
+            return func(*args, **kwargs)
+    return wrapper
+
+""".format(project_name=project_name)
 ###########################################################
 
 ###########################################################
@@ -579,7 +665,22 @@ css_file = partial(html_file, file_type="css")
 #--------------------CELERY WORKER------------------------#
 ###########################################################
 celery_worker = lambda project_name: """
+### Standard Library Imports ###
+
+################################
+
+
+### 3rd Party Imports ###
+
+################################
+
+
+### Local Imports ###
+
 from {project_name} import celery, create_app
+
+################################
+
 
 app = create_app("config")
 app.app_context().push()
@@ -587,7 +688,23 @@ app.app_context().push()
 
 
 celery_task = lambda project_name: """
+### Standard Library Imports ###
+
+################################
+
+
+### 3rd Party Imports ###
+
+
+################################
+
+
+### Local Imports ###
+
 from {project_name} import celery
+
+################################
+
 
 @celery.task
 def sample_task():
@@ -600,8 +717,23 @@ def sample_task():
 #--------------------SOCKET-IO----------------------------#
 ###########################################################
 socket_io = lambda project_name:"""
+### Standard Library Imports ###
+
+################################
+
+
+### 3rd Party Imports ###
+
 from flask_socketio import send, emit
+
+################################
+
+
+### Local Imports ###
+
 from {project_name} import socketio
+
+################################
 
 
 @socketio.on("my_test")
@@ -620,9 +752,25 @@ def handle_message(message):
 
 tests_format = lambda app, project_name:  """
 
+### Standard Library Imports ###
+
 import unittest
-from {project_name} import create_app
+
+################################
+
+
+### 3rd Party Imports ###
+
 from flask import url_for
+
+################################
+
+
+### Local Imports ###
+
+from {project_name} import create_app
+
+################################
 
 
 class {app}TestCase(unittest.TestCase):
@@ -653,4 +801,20 @@ if __name__ == '__main__':
 
 ###########################################################
 
+###########################################################
+#################### Function Based View ##################
 
+function_template = lambda app, page: """
+
+@{app}.route('/{page}', methods=['GET', 'POST'])
+def {page}():
+    return render_template('/{app}_templates/{app}_{page}.html')
+""".format(app=app, page=page)
+
+function_template_index = lambda app, page: """
+
+@{app}.route('/', methods=['GET', 'POST'])
+def {page}():
+    return render_template('/{app}_templates/{app}_{page}.html')
+""".format(app=app, page=page)
+###########################################################

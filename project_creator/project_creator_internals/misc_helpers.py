@@ -1,5 +1,5 @@
 from .helper_functions import create_file, create_directory
-from .text_formats import celery_task, socket_io, check_password_hash
+from .text_formats import celery_task, socket_io, misc_functions
 
 
 class MiscHelpers:
@@ -37,4 +37,4 @@ class MiscHelpers:
                                project_name,
                                "misc_files",
                                "helper_functions.py"),
-                    text_format=check_password_hash)
+                    text_format=misc_functions(project_name))

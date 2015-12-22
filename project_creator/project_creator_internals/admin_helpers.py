@@ -1,13 +1,18 @@
 import os
 import shutil
-from .text_formats import admin_view, admin_model, admin_forms
-from .helper_functions import create_directory, copy_files_to, create_file, get_files_from_directory
+from .text_formats import (admin_view,
+                           admin_model,
+                           admin_forms,
+                           admin_tests)
+from .helper_functions import (create_directory,
+                               copy_files_to,
+                               get_files_from_directory)
 
 
 class AdminHelpers:
 
     def _create_all_admin_files(self, app_folders_path, project_location, project_name):
-        self._create_admin_files(app_folders_path)
+        self._create_admin_files(project_name, app_folders_path)
         self._create_admin_base_templates(project_location, project_name)
         self._create_admin_base_css(project_location, project_name)
         self._copy_master_html(project_location, project_name)
@@ -20,8 +25,8 @@ class AdminHelpers:
 
 
     @staticmethod
-    def _create_admin_files(app_folders_path):
-        admin_files = ("admin_views.py", "admin_models.py", "admin_forms.py")
+    def _create_admin_files(project_name, app_folders_path):
+        admin_files = ("admin_views.py", "admin_models.py", "admin_forms.py", "admin_tests.py")
         py_file_path = lambda py_file: os.path.join(app_folders_path,
                                                     "admin",
                                                     py_file)
@@ -31,6 +36,8 @@ class AdminHelpers:
                     file.write(admin_view)
                 elif "models" in py_file:
                     file.write(admin_model)
+                elif "tests" in py_file:
+                    file.write(admin_tests(project_name))
                 else:
                     file.write(admin_forms)
     @staticmethod
@@ -65,14 +72,6 @@ class AdminHelpers:
         admin_css_path = os.path.join(project_creator_path,
                                       "static_files",
                                       "css")
-        # admin_index_css_path = os.path.join(project_creator_path,
-        #                                     "static_files",
-        #                                     "css",
-        #                                     "index.css")
-        # admin_sb_admin_css_path = os.path.join(project_creator_path,
-        #                                        "static_files",
-        #                                        "css",
-        #                                        "sb-admin-2.css")
         admin_css_files = get_files_from_directory(admin_css_path)
         copy_files_to(sources=admin_css_files,
                       destination=path_of_admin_css_in_project)

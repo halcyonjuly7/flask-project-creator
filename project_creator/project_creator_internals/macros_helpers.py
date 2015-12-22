@@ -4,6 +4,7 @@ from .helper_functions import create_file, copy_files_to, get_files_from_directo
 
 
 class MacrosHelpers(object):
+    """this class is responisble for creating the macros files in the templates folder"""
 
     def _create_macros_files(self, project_location, project_name):
         self._copy_macros(project_location, project_name)

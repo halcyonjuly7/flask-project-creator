@@ -4,10 +4,11 @@ import shutil
 class CssHelpers(object):
 
     @staticmethod
-    def _create_new_css_files(project_location,
-                              project_name,
-                              app,
-                              page):
+    def _create_css_files(project_location,
+                          project_name,
+                          app,
+                          page):
+
         create_file(file_path=(project_location,
                                project_name,
                                "static",
@@ -17,10 +18,11 @@ class CssHelpers(object):
                                                          page=page)),
                     text_format="{page}.css".format(page=page))
 
+
     @staticmethod
-    def _create_new_css_folders(project_location,
-                                project_name,
-                                app):
+    def _create_css_folders(project_location,
+                            project_name,
+                            app):
         create_directory(directory_path=(project_location,
                                          project_name,
                                          "static",
