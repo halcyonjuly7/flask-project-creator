@@ -89,6 +89,7 @@ from flask.ext.admin import Admin
 from {project_name} import create_app, db
 from {project_name}.misc_files.socketio import socketio
 from {project_name}.apps.admin.admin_views import IndexView
+from register_helpers.admin_register import register_admin_views
 #################################
 
 if __name__ == "__main__":
@@ -96,6 +97,7 @@ if __name__ == "__main__":
     admin = Admin(app, index_view=IndexView())
     with app.app_context():
         db.create_all()
+        register_admin_views(admin)
     socketio.run(app)""".format(project_name=project_name)
 
 
@@ -167,6 +169,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.login import LoginManager
 from flask.ext.socketio import SocketIO
+from flask_restful import Api
 #################################
 
 ### Local Imports ###
@@ -179,6 +182,7 @@ mail = Mail()
 db = SQLAlchemy()
 celery = Celery(__name__, broker="redis://localhost:6379/0")
 socketio = SocketIO()
+api = Api()
 lm = LoginManager()
 lm.login_view = "/"
 
@@ -190,6 +194,7 @@ def create_app(config_name):
     bootstrap.init_app(app)
     celery.conf.update(app.config)
     socketio.init_app(app, async_mode='eventlet')
+    api.init_app(app)
     db.init_app(app)
     lm.init_app(app)
 """.format(config_folder=config_folder)
@@ -382,13 +387,32 @@ forms = """
 
 ### 3rd Party Imports ###
 from flask.ext.wtf import Form
-from wtforms import TextField, PasswordField, SubmitField, FileField, HiddenField, StringField
+from wtforms import (TextField,
+                    PasswordField,
+                    SubmitField,
+                    FileField,
+                    HiddenField,
+                    StringField,
+                    TextAreaField)
+from wtforms.widgets import TextArea
+from wtforms.validators import Required
 ################################
 
 ### Local Imports ###
 
 ################################
 
+class CKTextAreaWidget(TextArea):
+    def __call__(self, field, **kwargs):
+        if kwargs.get('class'):
+            kwargs['class'] += ' ckeditor'
+        else:
+            kwargs.setdefault('class', 'ckeditor')
+        return super().__call__(field, **kwargs)
+
+
+class CKTextAreaField(TextAreaField):
+    widget = CKTextAreaWidget()
 
 class UserForm(Form):
     username = TextField("username")
@@ -491,13 +515,32 @@ admin_forms = """
 
 ### 3rd Party Imports ###
 from flask.ext.wtf import Form
-from wtforms import TextField, PasswordField, SubmitField, FileField, HiddenField, StringField
+from wtforms import (TextField,
+                     PasswordField,
+                     SubmitField,
+                     FileField,
+                     HiddenField,
+                     StringField,
+                     TextAreaField)
+from wtforms.widgets import TextArea
+from wtforms.validators import Required
 ################################
 
 ### Local Imports ###
 
 ################################
 
+class CKTextAreaWidget(TextArea):
+    def __call__(self, field, **kwargs):
+        if kwargs.get('class'):
+            kwargs['class'] += ' ckeditor'
+        else:
+            kwargs.setdefault('class', 'ckeditor')
+        return super().__call__(field, **kwargs)
+
+
+class CKTextAreaField(TextAreaField):
+    widget = CKTextAreaWidget()
 
 class UserForm(Form):
     username = TextField("username")
@@ -582,6 +625,13 @@ def confirm_token(token, expiration=3600):
         return email
     except:
         return False
+
+def generate_token_and_send_mail(email, route=None, template=None):
+    token = generate_confirmation_token(email)
+    url = url_for(route, token=token, _external=True)
+    html = render_template(template, url=url)
+    subject = "Please confirm your email"
+    send_email(email, subject, html)
 
 def send_email(to, subject, template):
     msg = Message(
@@ -682,7 +732,7 @@ from {project_name} import celery, create_app
 ################################
 
 
-app = create_app("config")
+app = create_app("developement_config")
 app.app_context().push()
 """.format(project_name=project_name)
 
@@ -716,6 +766,8 @@ def sample_task():
 ###########################################################
 #--------------------SOCKET-IO----------------------------#
 ###########################################################
+
+
 socket_io = lambda project_name:"""
 ### Standard Library Imports ###
 
@@ -723,16 +775,12 @@ socket_io = lambda project_name:"""
 
 
 ### 3rd Party Imports ###
-
 from flask_socketio import send, emit
-
 ################################
 
 
 ### Local Imports ###
-
 from {project_name} import socketio
-
 ################################
 
 
@@ -753,23 +801,17 @@ def handle_message(message):
 tests_format = lambda app, project_name:  """
 
 ### Standard Library Imports ###
-
 import unittest
-
 ################################
 
 
 ### 3rd Party Imports ###
-
 from flask import url_for
-
 ################################
 
 
 ### Local Imports ###
-
 from {project_name} import create_app
-
 ################################
 
 
@@ -818,3 +860,25 @@ def {page}():
     return render_template('/{app}_templates/{app}_{page}.html')
 """.format(app=app, page=page)
 ###########################################################
+
+
+register_admin_views = lambda project_name: """
+### Standard Library Imports ###
+
+################################
+
+
+### 3rd Party Imports ###
+
+################################
+
+
+### Local Imports ###
+from {project_name}.apps.admin.admin_models import UserModel # import your models here
+################################
+
+
+def register_admin_views(admin):
+    pass
+""".format(project_name=project_name)
+
