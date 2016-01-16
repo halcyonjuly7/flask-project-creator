@@ -49,7 +49,6 @@ class ApiEndPoints:
         self.api_folder_location = api_folder_location
         self.api_names_and_endpoints = api_names_and_endpoints
 
-
     def _create_api_and_pages(self):
         """
         :return: None
@@ -63,7 +62,6 @@ class ApiEndPoints:
         self._create_api_folder_contents()
         self._add_endpoint_to_views_and_tests()
         self._register_api_endpoints()
-
 
     def _add_api_endpoints(self):
         """
@@ -115,10 +113,9 @@ class ApiEndPoints:
             Creates the api folders
 
         """
-        
+
         for api_name in self.api_names_and_endpoints.keys():
             create_directory(directory_path=(self.api_folder_location, api_name))
-
 
     def _create_api_folder_contents(self):
         """
@@ -158,7 +155,6 @@ class ApiEndPoints:
             for endpoint in endpoints:
                 append_to_file(file_path=(self.API_VIEWS_PATH(api_name, self.api_folder_location),),
                                text_format=flask_restful_add_resource(endpoint))
-
 
     def _register_api_endpoints(self):
         """

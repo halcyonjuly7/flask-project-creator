@@ -120,7 +120,7 @@ class ClassBasedProject(CreatorInternals):
         Method description:
         creates new apps in your project and automatically registers the app. All apps are blueprints and the blueprint
         names are the app names that are specified. this will also create a base_template for the app. The root
-        __init__.py of the project is also updated to accomdate for the newly added apps.
+        __init__.py of the project is also updated to accomodate for the newly added apps.
 
         """
 

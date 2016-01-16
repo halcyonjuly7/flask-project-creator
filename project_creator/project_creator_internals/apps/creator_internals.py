@@ -248,7 +248,7 @@ class CreatorInternals(MiscHelpers,
 
         Method description:
             creates the files inside each app folder..
-            each app will be have it's own folder in the project_name/apps/app_name directory
+            each app will have it's own folder in the project_name/apps/app_name directory
             to make each app modular each app folder will have 4 files :
 
             models.py -> models used by that app
@@ -280,10 +280,10 @@ class CreatorInternals(MiscHelpers,
                                "views.py"),
                     text_format=view_imports(app, self.project_name))
 
-        create_file(file_path=(self.apps_folder_location,
-                               app,
-                               "tests.py"),
-                    text_format=tests_format(app, self.project_name))
+        # create_file(file_path=(self.apps_folder_location,
+        #                        app,
+        #                        "tests.py"),
+        #             text_format=tests_format(app, self.project_name))
 
 
     def _create_celery_worker(self):
@@ -495,7 +495,8 @@ class CreatorInternals(MiscHelpers,
 
         Method description:
             creates all the initial scaffolding of the project. e.g the folders and it's structural
-             heirarchy
+            heirarchy
+
         """
         for directory in [(self.project_location, self.project_name),
                           (self.apps_folder_location,),
@@ -522,7 +523,7 @@ class CreatorInternals(MiscHelpers,
                                          self.project_name,
                                          "templates",
                                          "macros_templates"))
-
+        self._create_test_folder()
         self._create_admin_folder()
         self._create_misc_folder()
         self._create_contents_of_static_folder("admin")
@@ -545,7 +546,7 @@ class CreatorInternals(MiscHelpers,
         self._create_all_admin_files()
         self._create_config_run_and_main_init_file()
         self._write_to_views_and_main_init_file(project_init_file)
-        self._create_test_pages()
+        self._create_test_file()
         self._create_base_template_and_register_blueprints(project_init_file)
         append_to_file(file_path=project_init_file,
                        text_format="""    return app """)

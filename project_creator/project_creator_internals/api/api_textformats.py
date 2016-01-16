@@ -1,4 +1,13 @@
 
+"""
+this is where all the initial formats of the api endpoints are mad
+
+"""
+
+
+
+
+
 
 
 api_views = lambda api_name, project_name:"""
