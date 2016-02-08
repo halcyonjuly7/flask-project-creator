@@ -3,20 +3,20 @@ import shutil
 
 class CssHelpers(object):
 
-    def __init__(self, project_location, project_name):
-        """
-
-        :param project_location: absolute path of the project
-        :param project_name: name of the project
-        :return: None
-
-        Class description:
-            This class is responsible for the css part of the static folders
-            all added pages will be given it's own css
-
-        """
-        self.project_locations = project_location
-        self.project_name = project_name
+    # def __init__(self, project_location, project_name):
+    #     """
+    #
+    #     :param project_location: absolute path of the project
+    #     :param project_name: name of the project
+    #     :return: None
+    #
+    #     Class description:
+    #         This class is responsible for the css part of the static folders
+    #         all added pages will be given it's own css
+    #
+    #     """
+    #     self.project_locations = project_location
+    #     self.project_name = project_name
 
 
     def _create_css_files(self, app, page):

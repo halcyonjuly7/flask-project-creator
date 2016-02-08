@@ -14,20 +14,18 @@ from ..apps.helper_functions import (create_directory,
                                      remove_files)
 from  .api_textformats import (flask_restful_api_template,
                                api_views,
-                               api_test_format,
-                               api_endpoint_test,
                                flask_restful_add_resource,
                                api_page_imports,
                                api_blueprint,
                                api_register_blueprint)
 from ..apps.creator_internals import CreatorInternals
+from .api_test_helpers import ApiTestHelpers
 ##############################
 
-class ApiEndPoints:
+class ApiEndPoints(ApiTestHelpers):
     """class for adding api"""
 
     API_VIEWS_PATH = lambda self, app, api_folder_location: os.path.join(api_folder_location, app, "views.py")
-    API_TESTS_PATH = lambda self, app, api_folder_location: os.path.join(api_folder_location, app, "tests.py")
     API_INIT_PATH = lambda self, app, api_folder_location: os.path.join(api_folder_location, app, "__init__.py")
 
     def __init__(self,
@@ -59,9 +57,23 @@ class ApiEndPoints:
         """
 
         self._create_api_folders()
+        self._create_test_files()
         self._create_api_folder_contents()
-        self._add_endpoint_to_views_and_tests()
+        self._write_initial_endpoints_to_views()
+        self._write_initial_endpoints_to_tests()
         self._register_api_endpoints()
+
+    def _add_endpoints_and_tests(self):
+        """
+
+        :return: None
+
+        Method Description:
+            convenience method that adds the endpoints to the views.py as well as the tests.py
+
+        """
+        self._add_api_endpoints()
+        self._add_endpoints_to_tests()
 
     def _add_api_endpoints(self):
         """
@@ -72,7 +84,7 @@ class ApiEndPoints:
             reads all lines from views.py up to "api.add_resource" and writes it to a new views.py
             all lines after "api.add_resource" are written to a new api_resource file.
             this is done in order to preserve the order and things written on the views while appending
-            the new endpoints. the old views that file will be deleted and the new views renamed to the old view
+            the new endpoints. the old views  file will be deleted and the new views renamed to the old view
             and the new api_resource file wll also be deleted
 
         """
@@ -131,16 +143,13 @@ class ApiEndPoints:
                         text_format=api_blueprint(api_name))
             create_file(file_path=(self.API_VIEWS_PATH(api_name, self.api_folder_location), ),
                         text_format=api_views(api_name, self.project_name))
-            create_file(file_path=(self.API_TESTS_PATH(api_name, self.api_folder_location),),
-                        text_format=api_test_format(api_name, self.project_name))
 
-    def _add_endpoint_to_views_and_tests(self):
+    def _write_initial_endpoints_to_views(self):
         """
         :return: None
 
         Method Description:
-            appends the endpoints to the views.py of api's as well as the test for the the endpoints
-            on the tests.py
+            appends the endpoints to the views.py of the api's
 
         """
 
@@ -148,8 +157,6 @@ class ApiEndPoints:
             for endpoint in endpoints:
                 append_to_file(file_path=(self.API_VIEWS_PATH(api_name, self.api_folder_location),),
                                text_format=flask_restful_api_template(endpoint))
-                append_to_file(file_path=(self.API_TESTS_PATH(api_name, self.api_folder_location),),
-                               text_format=api_endpoint_test(api_name, endpoint))
 
         for api_name, endpoints in self.api_names_and_endpoints.items():#Looped twice so "api.add_resource" would be at the bottom of the page"
             for endpoint in endpoints:
@@ -166,6 +173,7 @@ class ApiEndPoints:
             because the api's are registered as blueprints this method leverages the
             static methods of CreatorInternals (_format_main_init_file and _write_to_new_init_file_and update)
         """
+
         old_py_file = os.path.join(self.project_location,
                                    self.project_name,
                                    "__init__.py")

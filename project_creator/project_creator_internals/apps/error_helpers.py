@@ -3,21 +3,21 @@ from .helper_functions import create_directory, copy_files_to, get_files_from_di
 
 class ErrorHelpers:
 
-    def __init__(self, project_location, project_name):
-        """
-
-        :param project_location: absolute path of the project
-        :param project_name: name of given to the project
-        :return: None
-
-        Class description:
-            This class is responsible for creating the error templates for each app
-
-            error templates being the 404, 405, 500 templates
-            all apps will each have it's own 404, 405, 500 templates
-        """
-        self.project_location = project_location
-        self.project_name = project_name
+    # def __init__(self, project_location, project_name):
+    #     """
+    #
+    #     :param project_location: absolute path of the project
+    #     :param project_name: name of given to the project
+    #     :return: None
+    #
+    #     Class description:
+    #         This class is responsible for creating the error templates for each app
+    #
+    #         error templates being the 404, 405, 500 templates
+    #         all apps will each have it's own 404, 405, 500 templates
+    #     """
+    #     self.project_location = project_location
+    #     self.project_name = project_name
 
     def _create_error_templates_files(self, *apps):
         """

@@ -78,7 +78,7 @@ SECURITY_PASSWORD_SALT = "securitysalt1234"
 
 run_pyfile = lambda project_name: """
 ### Standard Library Imports ###
-
+import os
 ################################
 
 ### 3rd Party Imports ###
@@ -89,11 +89,12 @@ from flask.ext.admin import Admin
 from {project_name} import create_app, db
 from {project_name}.misc_files.socketio import socketio
 from {project_name}.apps.admin.admin_views import IndexView
-from register_helpers.admin_register import register_admin_views
+from {project_name}.misc_files.admin_register import register_admin_views
 #################################
 
 if __name__ == "__main__":
-    app = create_app("developement_config")
+    config_location = (os.getcwd(), "config", "developement_config.py")
+    app = create_app(config_location)
     admin = Admin(app, index_view=IndexView())
     with app.app_context():
         db.create_all()
@@ -156,6 +157,49 @@ from . import * """
 ##########################################################
 
 
+# main_init_file = lambda config_folder: """
+# ### Standard Library Imports ###
+# import os
+# from celery import Celery
+# ################################
+#
+# ### 3rd Party Imports ###
+# from flask import Flask
+# from flask_mail import Mail
+# from flask.ext.sqlalchemy import SQLAlchemy
+# from flask.ext.bootstrap import Bootstrap
+# from flask.ext.login import LoginManager
+# from flask.ext.socketio import SocketIO
+# from flask_restful import Api
+# #################################
+#
+# ### Local Imports ###
+#
+# #################################
+#
+#
+# bootstrap = Bootstrap()
+# mail = Mail()
+# db = SQLAlchemy()
+# celery = Celery(__name__, broker="redis://localhost:6379/0")
+# socketio = SocketIO()
+# api = Api()
+# lm = LoginManager()
+# lm.login_view = "/"
+#
+# def create_app(config_name):
+#     app = Flask(__name__)
+#     cfg = os.path.join(os.getcwd(), "{config_folder}", config_name + ".py")
+#     app.config.from_pyfile(cfg)
+#     mail.init_app(app)
+#     bootstrap.init_app(app)
+#     celery.conf.update(app.config)
+#     socketio.init_app(app, async_mode='eventlet')
+#     api.init_app(app)
+#     db.init_app(app)
+#     lm.init_app(app)
+# """.format(config_folder=config_folder)
+
 main_init_file = lambda config_folder: """
 ### Standard Library Imports ###
 import os
@@ -163,7 +207,7 @@ from celery import Celery
 ################################
 
 ### 3rd Party Imports ###
-from flask import Flask 
+from flask import Flask
 from flask_mail import Mail
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.bootstrap import Bootstrap
@@ -188,7 +232,7 @@ lm.login_view = "/"
 
 def create_app(config_name):
     app = Flask(__name__)
-    cfg = os.path.join(os.getcwd(), "{config_folder}", config_name + ".py")
+    cfg = os.path.join(*config_name)
     app.config.from_pyfile(cfg)
     mail.init_app(app)
     bootstrap.init_app(app)
@@ -198,6 +242,10 @@ def create_app(config_name):
     db.init_app(app)
     lm.init_app(app)
 """.format(config_folder=config_folder)
+
+
+
+
 
 
 ############################################################
@@ -569,6 +617,12 @@ class AdminTestCase(unittest.TestCase):
     def tearDown(self):
         self.app_context.pop()
 
+
+
+
+if __name__ == '__main__':
+    unittest.main()
+
 """.format(project_name=project_name)
 
 
@@ -798,10 +852,42 @@ def handle_message(message):
 
 
 
-tests_format = lambda app, project_name:  """
+# tests_format = lambda app, project_name:  """
+#
+# ### Standard Library Imports ###
+# import unittest
+# ################################
+#
+#
+# ### 3rd Party Imports ###
+# from flask import url_for
+# ################################
+#
+#
+# ### Local Imports ###
+# from {project_name} import create_app
+# ################################
+#
+#
+# class {app}TestCase(unittest.TestCase):
+#     def setUp(self):
+#         self.app = create_app("tests_config")
+#         self.app_context = self.app.app_context()
+#         self.app_context.push()
+#         self.client = self.app.test_client(use_cookies=True)
+#
+#     def tearDown(self):
+#         self.app_context.pop()
+#
+# """.format(app=app, project_name=project_name)
+
+tests_format = lambda api, project_name, project_location:  """
 
 ### Standard Library Imports ###
 import unittest
+import os
+import sys
+sys.path.extend(['r{project_location}'])
 ################################
 
 
@@ -811,28 +897,31 @@ from flask import url_for
 
 
 ### Local Imports ###
-from {project_name} import create_app
+from {project_name}.__init__ import create_app
 ################################
 
 
-class {app}TestCase(unittest.TestCase):
+class {api}TestCase(unittest.TestCase):
     def setUp(self):
-        self.app = create_app("tests_config")
-        self.app_context = self.app.app_context()
+        config_location = os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))
+        config_folder = (config_location, "config", "tests_config.py")
+        app = create_app(*config_folder)
+        self.app = app.test_client()
+        self.app_context = app.app_context()
         self.app_context.push()
-        self.client = self.app.test_client(use_cookies=True)
 
     def tearDown(self):
         self.app_context.pop()
-
-""".format(app=app, project_name=project_name)
+""".format(api=api.title(),
+           project_name=project_name,
+           project_location=project_location)
 
 
 page_tests = lambda app, page: """
     def test_{app}_{page}(self):
             response = self.client.get(url_for("{app}.{page}"))
 
-""".format(app=app, page=page.title())
+""".format(app=app, page=page)
 
 
 test_bottom = """

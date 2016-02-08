@@ -1,6 +1,6 @@
 import re
 import os
-from project_creator.choice_helpers import *
+from project_creator.choice_helpers import ChoiceHelpers
 
 clear = lambda: os.system("cls")
 
@@ -57,7 +57,9 @@ choose a number:
 
 
 clear()
-choice_action(choice)
+choosen_number = ChoiceHelpers(choice)
+choosen_number.choice_action()
+
 clear()
 
 

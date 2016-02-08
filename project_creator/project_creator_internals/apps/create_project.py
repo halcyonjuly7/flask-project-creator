@@ -43,12 +43,6 @@ class ClassBasedProject(CreatorInternals):
         self.project_name = project_name
         self.app_names_and_pages = app_names_and_pages
 
-        super().__init__(
-                          project_location,
-                          apps_folder_location,
-                          project_name,
-                          **app_names_and_pages)
-
     def create_project(self):
         """
 

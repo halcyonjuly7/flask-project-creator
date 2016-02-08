@@ -1,6 +1,21 @@
+
+
+
+###STANDARD LIBRARY IMPORTS###
 import os
-from .helper_functions import append_to_file, create_directory, create_file
+##############################
+
+##### 3RD PARTY IMPORTS  #####
+##############################
+
+###### LOCAL IMPORTS #########
+from .helper_functions import (append_to_file,
+                               create_directory,
+                               create_file,
+                               update_test_files)
 from .text_formats import page_tests, test_bottom, tests_format
+##############################
+
 
 class TestHelpers:
     def __init__(self,
@@ -29,17 +44,6 @@ class TestHelpers:
         self.app_names_and_pages = app_names_and_pages
         self.apps_folder_location = apps_folder_location
 
-    def _create_test_folder(self):
-        """
-
-        :return: None
-
-        Method Description:
-         creates the test folder directory in the project location
-
-        """
-        create_directory(directory_path=(self.project_location, "tests"))
-
     def _create_test_file(self):
         """
 
@@ -50,13 +54,15 @@ class TestHelpers:
 
         """
 
-        app_to_test = lambda app: os.path.join(self.project_location,
-                                               "tests",
-                                               "{app}_tests.py".format(app=app))
+        app_to_test = lambda app: os.path.join(self.apps_folder_location,
+                                               app,
+                                               "tests.py")
+
         for app_name in self.app_names_and_pages.keys():
             create_file(file_path=(app_to_test(app_name),),
-                        text_format=tests_format(app_name, self.project_name))
-
+                        text_format=tests_format(app_name,
+                                                 self.project_name,
+                                                 self.project_location))
         self._create_test_pages()
 
 
@@ -69,12 +75,10 @@ class TestHelpers:
          Method description:
             appends the added views into the tests.py file
         """
-        
-        test_py_path = lambda app: os.path.join(self.project_location,
-                                                "tests",
-                                                "{app}_tests.py".format(app=app))
 
-
+        test_py_path = lambda app: os.path.join(self.apps_folder_location,
+                                               app,
+                                               "tests.py")
 
         for app, pages in self.app_names_and_pages.items():
             for page in pages:
@@ -93,25 +97,21 @@ class TestHelpers:
 
         """
 
-        app_test_file = lambda app: os.path.join(self.project_location,
-                                                 "tests",
-                                                 "{app}_tests.py".format(app=app))
-        new_app_test_file = lambda app: os.path.join(self.project_location,
-                                                     "tests",
-                                                     "new_{app}_tests.py".format(app=app))
+        old_test_file = lambda app: os.path.join(self.apps_folder_location,
+                                                 app,
+                                                 "tests.py")
+        new_test_file = lambda app: os.path.join(self.apps_folder_location,
+                                               app,
+                                               "new_tests.py")
+        bottom_info = lambda app: os.path.join(self.apps_folder_location,
+                                               app,
+                                               "bottom_info.py")
 
-        for app, pages in self.app_names_and_pages.items():
-            with open(app_test_file(app), "r") as test_file:
-                with open(new_app_test_file(app), "w") as new_test_file:
-                    for line in test_file:
-                        if not "__name__" in line and not "unittest.main()" in line:
-                            new_test_file.write(line)
-                    for page in pages:
-                        new_test_file.write(page_tests(app, page))
-                    new_test_file.write(test_bottom)
-            os.remove(app_test_file(app))
-            os.rename(new_app_test_file(app), app_test_file(app))
-
+        update_test_files(old_test_file,
+                          bottom_info,
+                          new_test_file,
+                          page_tests,
+                          self.app_names_and_pages)
 
 
 

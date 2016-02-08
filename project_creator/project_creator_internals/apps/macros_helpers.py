@@ -7,20 +7,20 @@ class MacrosHelpers(object):
 
 
 
-    def __init__(self, project_location, project_name):
-        """
-
-        :param project_location: absolute path of the project
-        :param project_name: name of given to the project
-        :return: None
-
-        Class description:
-            this class is responsible for the macros templates in the
-            templates/macros_templates folder
-
-        """
-        self.project_location = project_location
-        self.project_name = project_name
+    # def __init__(self, project_location, project_name):
+    #     """
+    #
+    #     :param project_location: absolute path of the project
+    #     :param project_name: name of given to the project
+    #     :return: None
+    #
+    #     Class description:
+    #         this class is responsible for the macros templates in the
+    #         templates/macros_templates folder
+    #
+    #     """
+    #     self.project_location = project_location
+    #     self.project_name = project_name
 
 
     def _create_render_field_macros(self):

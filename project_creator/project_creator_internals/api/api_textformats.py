@@ -31,8 +31,8 @@ from . import api
 
 
 
-api_page_imports = lambda api :"""    from .api.{api} import {api}_api\n""".format(api=api)
-api_register_blueprint = lambda api: """    app.register_blueprint({api}_api, url_prefix ='/{api}/api')
+api_page_imports = lambda api :"""    from .api.{api} import {api}\n""".format(api=api)
+api_register_blueprint = lambda api: """    app.register_blueprint({api}, url_prefix ='/{api}/api')
 """.format(api=api)
 
 
@@ -84,10 +84,43 @@ add_url_rule = lambda api, endpoint: """{api}.add_url_rule('/{endpoint}', view_f
 """.format(endpoint="".join(item.capitalize() for item in endpoint.partition("page")),
            api=api)
 
-api_test_format = lambda api, project_name:  """
+# api_test_format = lambda api, project_name:  """
+#
+# ### Standard Library Imports ###
+# import unittest
+# ################################
+#
+#
+# ### 3rd Party Imports ###
+# from flask import url_for
+# ################################
+#
+#
+# ### Local Imports ###
+# from {project_name} import create_app
+# ################################
+#
+#
+# class {api}TestCase(unittest.TestCase):
+#     def setUp(self):
+#         self.app = create_app("tests_config")
+#         self.app_context = self.app.app_context()
+#         self.app_context.push()
+#         self.client = self.app.test_client(use_cookies=True)
+#
+#     def tearDown(self):
+#         self.app_context.pop()
+# """.format(api=api, project_name=project_name)
+
+
+
+api_test_format = lambda api, project_name, project_location:  """
 
 ### Standard Library Imports ###
 import unittest
+import os
+import sys
+sys.path.extend(['r{project_location}'])
 ################################
 
 
@@ -97,28 +130,44 @@ from flask import url_for
 
 
 ### Local Imports ###
-from {project_name} import create_app
+from {project_name}.__init__ import create_app
 ################################
 
 
 class {api}TestCase(unittest.TestCase):
     def setUp(self):
-        self.app = create_app("tests_config")
-        self.app_context = self.app.app_context()
+        config_location = os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))
+        config_folder = (config_location, "config", "tests_config.py")
+        app = create_app(*config_folder)
+        self.app = app.test_client()
+        self.app_context = app.app_context()
         self.app_context.push()
-        self.client = self.app.test_client(use_cookies=True)
 
     def tearDown(self):
         self.app_context.pop()
-""".format(api=api, project_name=project_name)
+""".format(api=api,
+           project_name=project_name,
+           project_location=project_location)
+
+
+
+
+
+
+
 
 
 
 api_endpoint_test = lambda app, page: """
     def test_{app}_{page}(self):
             response = self.client.get(url_for("{app}.{page}"))
-"""
+""".format(app=app,
+           page=page)
 
+api_test_bottom = """
+if __name__ == '__main__':
+    unittests.main()
+"""
 
 api_blueprint = lambda blueprint_name: """
 ### Standard Library Imports ###
@@ -140,3 +189,6 @@ api = Api({blueprint_name}_api)
 from .views import *
 
 """.format(blueprint_name=blueprint_name)
+
+
+

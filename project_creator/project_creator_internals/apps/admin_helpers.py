@@ -13,24 +13,6 @@ from .helper_functions import (create_directory,
 
 class AdminHelpers(object):
 
-    def __init__(self, apps_folder_location, project_location, project_name):
-        """
-
-        :param project_location: absolute path of the project
-        :param apps_folder_location: location of the apps folder in the project
-        :param project_name: name of the project
-        :return: None
-
-
-        Class description:
-            this class is responsible for all things admin related. like the creation of the admin files in the
-            project_name/apps/admin folder
-
-
-        """
-        self.apps_folder_location= apps_folder_location
-        self.project_location = project_location
-        self.project_name = project_name
 
     def _create_all_admin_files(self):
         """
@@ -74,7 +56,8 @@ class AdminHelpers(object):
 
         """
 
-        admin_files = ("admin_views.py", "admin_models.py", "admin_forms.py", "admin_tests.py")
+        admin_files = ("admin_views.py", "admin_models.py", "admin_forms.py")
+        admin_test_path = os.path.join(self.apps_folder_location, "admin", "admin_tests.py")
         py_file_path = lambda py_file: os.path.join(self.apps_folder_location,
                                                     "admin",
                                                     py_file)
@@ -84,10 +67,11 @@ class AdminHelpers(object):
                     file.write(admin_view)
                 elif "models" in py_file:
                     file.write(admin_model)
-                elif "tests" in py_file:
-                    file.write(admin_tests(self.project_name))
                 else:
                     file.write(admin_forms)
+
+        create_file(file_path=(admin_test_path,),
+                    text_format=admin_tests(self.project_name))
 
     def _create_admin_base_templates(self):
 
@@ -173,7 +157,8 @@ class AdminHelpers(object):
 
         """
         create_file(file_path=(self.project_location,
-                               "register_helpers",
+                               self.project_name,
+                               "misc_files",
                                "admin_register.py"),
                     text_format=register_admin_views(self.project_name))
 

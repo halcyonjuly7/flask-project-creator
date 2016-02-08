@@ -17,6 +17,7 @@ class CreatorInternals(MiscHelpers,
                        HtmlHelpers,
                        TestHelpers,
                        CssHelpers):
+
     STATIC_SUBFOLDERS = ("css", "img", "font", "scripts")
 
 
@@ -31,19 +32,6 @@ class CreatorInternals(MiscHelpers,
         self.project_name = project_name
         self.app_names_and_pages = app_names_and_pages
 
-        MiscHelpers.__init__(self, project_location, project_name)
-        ErrorHelpers.__init__(self, project_location, project_name)
-        AdminHelpers.__init__(self, apps_folder_location, project_location, project_name)
-        MacrosHelpers.__init__(self, project_location, project_name)
-        HtmlHelpers.__init__(self, project_location, project_name)
-        TestHelpers.__init__(self,
-                             project_name,
-                             project_location,
-                             apps_folder_location,
-                             **app_names_and_pages)
-        CssHelpers.__init__(self, project_location, project_name)
-
-
     @staticmethod
     def _format_main_init_file(old_py_file,
                                new_py_file,
@@ -51,8 +39,7 @@ class CreatorInternals(MiscHelpers,
                                app_register_py_file,
                                *apps,
                                page_imports=app_init_page_imports,
-                               register_blueprint_with_url_prefix=blueprint_register_with_url_prefix
-                               ):
+                               register_blueprint_with_url_prefix=blueprint_register_with_url_prefix):
         """
 
         parameters:
@@ -92,7 +79,6 @@ class CreatorInternals(MiscHelpers,
                             if app == "main":  # loop repeated twice to achieve an certain format in __init__.py file
                                 app_register_file.write(blueprint_register(app))
                             else:
-                                # app_register_file.write(register_blueprint(app))
                                 app_register_file.write(register_blueprint_with_url_prefix(app))
     
     @staticmethod
@@ -232,13 +218,13 @@ class CreatorInternals(MiscHelpers,
         with open(old_file, "r") as old_init_file:
             with open(new_file, "w") as new_init_file:
                 for line in old_init_file:
-                    if any(app for app in app_names if app in line):
+                    # if any(app for app in app_names if app in line):
+                    if any(app in line for app in app_names):
                         continue
                     else:
                         new_init_file.write(line)
         remove_files(old_file)
         os.rename(new_file, old_file)
-
 
     def _create_app_files(self, app):
         """
@@ -258,7 +244,6 @@ class CreatorInternals(MiscHelpers,
 
 
         """
-
 
         create_file(file_path=(self.apps_folder_location,
                                app,
@@ -280,12 +265,6 @@ class CreatorInternals(MiscHelpers,
                                "views.py"),
                     text_format=view_imports(app, self.project_name))
 
-        # create_file(file_path=(self.apps_folder_location,
-        #                        app,
-        #                        "tests.py"),
-        #             text_format=tests_format(app, self.project_name))
-
-
     def _create_celery_worker(self):
         """
 
@@ -301,9 +280,6 @@ class CreatorInternals(MiscHelpers,
         create_file(file_path=(self.project_location,
                                "celery_worker.py"),
                     text_format=celery_worker(self.project_name))
-
-
-
 
     def _create_static_template_files(self, app_name, page):
 
@@ -338,9 +314,6 @@ class CreatorInternals(MiscHelpers,
 
         """
 
-
-
-
         for app in self.app_names_and_pages.keys():
             self._create_base_templates(app)
             self._register_blueprint(project_init_file, app)
@@ -360,9 +333,6 @@ class CreatorInternals(MiscHelpers,
             the lines 'from .apps import {app_name}' will be appended to the new __init__ file
 
         """
-
-
-        """removes original init and creates a new one for updated apps and pages"""
 
         old_py_file = os.path.join(self.project_location,
                                    self.project_name,
@@ -482,9 +452,6 @@ class CreatorInternals(MiscHelpers,
 
         """
 
-
-
-
         self._create_contents_of_static_folder(app_name)
         self._create_html_folders(app_name)
 
@@ -500,8 +467,7 @@ class CreatorInternals(MiscHelpers,
         """
         for directory in [(self.project_location, self.project_name),
                           (self.apps_folder_location,),
-                          (self.project_location, "config"),
-                          (self.project_location, "register_helpers")]:
+                          (self.project_location, "config")]:
             create_directory(directory_path=directory)
         
         for app in self.app_names_and_pages.keys():
@@ -523,7 +489,7 @@ class CreatorInternals(MiscHelpers,
                                          self.project_name,
                                          "templates",
                                          "macros_templates"))
-        self._create_test_folder()
+
         self._create_admin_folder()
         self._create_misc_folder()
         self._create_contents_of_static_folder("admin")
